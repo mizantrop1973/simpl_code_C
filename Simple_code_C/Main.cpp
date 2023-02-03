@@ -3,26 +3,26 @@
 using namespace std;
 
 
+template <class T> 
+void swap1(T& a, T& b)
+{
+	T c = a;
+	a = b;
+	b = c;
+}
+
 void main()
 {
-	srand(time(NULL));
-	const int SIZE = 10;
-	int arr[SIZE];
+	string a = "rtyugkvkv";
+	string b = "bnmx";
 
-	for (int i = 0; i < SIZE; ++i)
-	{
-		arr[i] = rand() % 20;
-		for (int j=i-1; j >= 0; --j)
-		{
-			if (arr[i] == arr[j])
-			{
-				arr[i] = rand() % 20;
-				j = i;
-			}
-		}
-	}
+	cout << "a = " << a << endl;
+	cout << "b = " << b << endl;
 
+	swap1(a, b);
 
-	for (int i = 0; i < SIZE; ++i)
-		cout << arr[i]<<endl;
+	cout << "a = " << a << endl;
+	cout << "b = " << b << endl;
+
+	
 }
