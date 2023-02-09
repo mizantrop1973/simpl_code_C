@@ -3,19 +3,46 @@
 #include <math.h>
 #include<algorithm>
 #include<locale.h>
+#include<string>
 using namespace std;
 
+class Human
+{
+
+public:
+	int age;  //поля класса
+	string name;
+	int weight;
+
+	void Print()
+	{
+		cout <<"Имя "<< name << " \n Возраст" << age << " \n Вес " << weight;
+	}
+};
+
+class Point
+{
+public:
+	int x;
+	int y;
+};
 
 
 
-void main(int argc, char* argv[])
+
+
+int main(int argc, char* argv[])
 
 {
 	setlocale(LC_ALL, "ru");
-	for (int i = 0; i < argc; ++i)
-		cout << argv[i] << endl;  //выдает хотя бы один параметр - адрес экзешника в папке с проектом
-								  //если скопировать адрес экзешника в командную строку, можно через пробел можно передать массу параметров любых (набираем символы)
 
-	system("pause");
+	Human firsthuman;
+	firsthuman.age = 30;
+	firsthuman.name = "Ivanov Ivan Ivanovich";
+	firsthuman.weight = 80;
+
+	firsthuman.Print();
+	
+	return 0;
 
 }
