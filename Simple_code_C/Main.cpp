@@ -3,8 +3,95 @@
 #include <math.h>
 #include<algorithm>
 #include<locale.h>
-#include<string>
+//#include<string>
 using namespace std;
+
+class String
+{
+public:
+	String()
+	{
+		size = 0;
+		char* str = new char[size+1];
+		str[0] = '\0';
+	}
+	~String()
+	{
+		delete[] str;
+	}
+
+	String(const String& other)                   //  онструктор копировани€
+	{
+		this->size = other.size;
+		this->str = new char [other.size +1];
+		for (int i = 0; i < other.size; ++i)
+		{
+			this->str[i] = other.str[i];
+		}
+		str[other.size] = '\0';
+	}                
+
+	String& operator = (const String& other)              //  онструктор присваивани€
+	{
+		this->size = other.size;
+		if (this->str != nullptr)            //обычно не требуетс€, так как объект создан уже
+			delete[] this->str;
+		this->str = new char[other.size+1];
+		for (int i = 0; i < other.size; ++i)
+		{
+			this->str[i] = other.str[i];
+		}
+		str[other.size] = '\0';
+
+		return *this;
+	}
+
+	void operator << (const String& other)              //  онструктор присваивани€
+	{
+		for (int i = 0; i < other.size; ++i)
+			cout << other.str[i];
+	}
+
+	char* GetStr()
+	{
+		return str;
+	}
+
+	int GetSize()
+	{
+		return size;
+	}
+
+	String& operator = (const char* other)              //  онструктор присваивани€
+	{
+		for (int i = 0; other[i] != '\0'; ++i)
+			size = i + 1;
+		this->size = size;
+		if (this->str != nullptr)            //обычно не требуетс€, так как объект создан уже
+			delete[] this->str;
+		this->str = new char[size + 1];
+		for (int i = 0; i < size; ++i)
+		{
+			this->str[i] = other[i];
+		}
+		str[size] = '\0';
+
+		return *this;
+	}
+
+	void Print()
+	{
+		for (int i = 0; i < size; ++i)
+			cout << str[i];
+		cout << endl << endl;
+	}
+private:
+	char* str;
+	int size;
+};
+
+
+
 
 class Human
 {
@@ -36,6 +123,16 @@ public:
 		x = valueX;
 		y = valueY;
 		cout << this << " constructor" << endl;
+	}
+
+	bool operator ==(const Point& other)                               // перегрузка оператора сравнени€ (равенства)
+	{
+		return this->x == other.x && this->y == other.y;
+	}
+
+	bool operator !=(const Point& other)                               // перегрузка оператора сравнени€ (неравенства)
+	{
+		return !(this->x == other.x && this->y == other.y);
 	}
 
 	int GetX()
@@ -180,15 +277,14 @@ int main(int argc, char* argv[])
 
 {
 	setlocale(LC_ALL, "ru");
-
 	/*Human firsthuman;
 	firsthuman.age = 30;
 	firsthuman.name = "Ivanov Ivan Ivanovich";
 	firsthuman.weight = 80;
 
-	firsthuman.Print();
+	firsthuman.Print();*/
 
-	Point a;
+	/*Point a;
 	a.SetX(5);
 	a.SetY(11);
 	a.Print();
@@ -197,9 +293,17 @@ int main(int argc, char* argv[])
 	a.Print();
 
 	Point b(7, 66);
-	b.Print();
+	b.Print();*/
 	
-	CoffeeGrinder a;
+	/*Point a(1, 9);
+	Point b(3, 9);
+
+	bool result = a != b;
+
+
+	cout << result << endl;*/
+
+	/*CoffeeGrinder a;
 	a.Start();
 
 	MyClass a(1);
@@ -208,14 +312,26 @@ int main(int argc, char* argv[])
 
 	Foo();*/
 
-	MyClass a(10);
+
+	/*MyClass a(10);
 	MyClass b(2);
 	MyClass c(7);
-	c = a = b;
+	c = a = b;*/
 
 	//Foo2(a);
 
+	String a;
+	a = "hhbbl";
+
+	String b = a;
 	
+
+	
+	a.Print();
+	b.Print();
+	
+	
+
 	return 0;
 
 
