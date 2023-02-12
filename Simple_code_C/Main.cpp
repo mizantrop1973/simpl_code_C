@@ -86,6 +86,8 @@ public:
 		return temp;
 	}
 
+	friend void ChangeX(Point& value);    // дружественная функция
+
 private:
 	int x;
 	int y;
@@ -210,7 +212,10 @@ private:
 	int arr[5]{5,44,55,77,99};
 };
 
-
+void ChangeX(Point& value)  // дружественная функция может принимать аргументы из разных классов, где она задекларирована как 
+{							//  дружественная
+	value.x = -1;
+}
 
 
 
@@ -231,7 +236,7 @@ int main(int argc, char* argv[])
 
 	//ОПЕРАЦИИ С Point
 
-	/*Point a;
+	Point a;
 	a.SetX(5);
 	a.SetY(11);
 	a.Print();
@@ -251,7 +256,12 @@ int main(int argc, char* argv[])
 
 	Point c = a + b;
 
-	c.Print();*/
+	c.Print();
+
+	ChangeX(a);     // дружественная ф-ция
+	a.Print();
+
+
 
 	// ОПЕРАЦИИ С CoffeeGrinder
 	
@@ -274,11 +284,11 @@ int main(int argc, char* argv[])
 	//Foo2(a);*/
 
 	// ОПЕРАЦИИ С Test
-	int arr[]{ 5,6,7,8,9 };
+	/*int arr[]{ 5,6,7,8,9 };
 	TestClass a;
 
 	cout << a[1];
-	return 0;
+	return 0;*/
 
 
 }
