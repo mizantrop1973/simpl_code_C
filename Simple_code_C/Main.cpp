@@ -38,6 +38,14 @@ public:
 		cout << this << " constructor" << endl;
 	}
 
+	Point operator + (const Point& other)
+	{
+		Point temp;
+		temp.x = this->x + other.x;
+		temp.y = this->y + other.y;
+		return temp;
+	}
+
 	int GetX()
 	{
 		return x;
@@ -61,6 +69,21 @@ public:
 	void Print()
 	{
 		cout << "X = " << x << "\t Y = " << y << endl << endl;
+	}
+
+	Point& operator ++()  // префиксный инкремент
+	{
+		++this->x;
+		++this->y;
+		return *this;
+	}
+
+	Point& operator ++(int value)  // постфиксный инкремент
+	{
+		Point temp(*this);
+		this->x++;
+		this->y++;
+		return temp;
 	}
 
 private:
@@ -174,6 +197,22 @@ MyClass Foo3()  //по значению
 }
 
 
+class TestClass                     //перегрузка оператора индексирования []
+{
+public:
+	int& operator [](int index)
+	{
+		return arr[index];
+	}
+	
+
+private:
+	int arr[5]{5,44,55,77,99};
+};
+
+
+
+
 
 
 int main(int argc, char* argv[])
@@ -181,41 +220,64 @@ int main(int argc, char* argv[])
 {
 	setlocale(LC_ALL, "ru");
 
+	// ОПЕРАЦИИ С Human
+
 	/*Human firsthuman;
 	firsthuman.age = 30;
 	firsthuman.name = "Ivanov Ivan Ivanovich";
 	firsthuman.weight = 80;
 
-	firsthuman.Print();
+	firsthuman.Print();*/
 
-	Point a;
+	//ОПЕРАЦИИ С Point
+
+	/*Point a;
 	a.SetX(5);
 	a.SetY(11);
 	a.Print();
+	Point  d = ++a;
+	d.Print();
+	a.Print();
+	d = a++;
+	d.Print();
+	a.Print();
+
 	cout << a.GetX() << endl;
 	a.SetY(5);
 	a.Print();
 
 	Point b(7, 66);
 	b.Print();
-	
-	CoffeeGrinder a;
-	a.Start();
 
-	MyClass a(1);
+	Point c = a + b;
+
+	c.Print();*/
+
+	// ОПЕРАЦИИ С CoffeeGrinder
+	
+	/*CoffeeGrinder a;
+	a.Start();*/
+
+	// ОПЕРАЦИИ С MyClass
+
+	/*MyClass a(1);
 
 	MyClass b(2);
 
-	Foo();*/
+	Foo();
 
 	MyClass a(10);
 	MyClass b(2);
 	MyClass c(7);
 	c = a = b;
 
-	//Foo2(a);
+	//Foo2(a);*/
 
-	
+	// ОПЕРАЦИИ С Test
+	int arr[]{ 5,6,7,8,9 };
+	TestClass a;
+
+	cout << a[1];
 	return 0;
 
 
