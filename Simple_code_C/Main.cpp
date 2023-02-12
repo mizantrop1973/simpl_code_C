@@ -198,7 +198,6 @@ MyClass Foo3()  //по значению
 	return temp;
 }
 
-
 class TestClass                     //перегрузка оператора индексирования []
 {
 public:
@@ -217,7 +216,30 @@ void ChangeX(Point& value)  // дружественная функция может принимать аргументы и
 	value.x = -1;
 }
 
+class Cls                                  //вынос определения методов из класса
+{
+public:
+	Cls();
+	~Cls();
 
+	void PrintMessage();
+
+private:
+
+};
+
+Cls::Cls()
+{
+}
+
+Cls::~Cls()
+{
+}
+
+void Cls::PrintMessage()
+{
+	cout << "Hello" << endl;
+}
 
 
 int main(int argc, char* argv[])
@@ -236,7 +258,7 @@ int main(int argc, char* argv[])
 
 	//ОПЕРАЦИИ С Point
 
-	Point a;
+	/*Point a;
 	a.SetX(5);
 	a.SetY(11);
 	a.Print();
@@ -259,9 +281,7 @@ int main(int argc, char* argv[])
 	c.Print();
 
 	ChangeX(a);     // дружественная ф-ция
-	a.Print();
-
-
+	a.Print();*/
 
 	// ОПЕРАЦИИ С CoffeeGrinder
 	
@@ -290,5 +310,6 @@ int main(int argc, char* argv[])
 	cout << a[1];
 	return 0;*/
 
-
+	Cls a;
+	a.PrintMessage();
 }
