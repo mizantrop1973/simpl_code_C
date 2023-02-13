@@ -6,10 +6,17 @@
 #include<string>
 using namespace std;
 
+class Point;
+
+
 class Human
 {
-
 public:
+	void paintPoint(Point& point);       // в C++ обязательно выносить реализацию дружественных другим классам методов вне класса
+	void ClearPoint(Point& point);
+	
+	
+private:
 	int age;  //поля класса
 	string name;
 	int weight;
@@ -87,11 +94,18 @@ public:
 	}
 
 	friend void ChangeX(Point& value);    // дружественная функция
+	friend void Human::paintPoint(Point& point);  // дружественная функция
 
 private:
 	int x;
 	int y;
 };
+
+
+
+
+
+
 
 class CoffeeGrinder
 {
@@ -241,6 +255,11 @@ void Cls::PrintMessage()
 	cout << "Hello" << endl;
 }
 
+void Human::paintPoint(Point& point)
+{
+	cout << "X = " << point.x << "Y = " << point.y << endl;
+}
+
 
 int main(int argc, char* argv[])
 
@@ -271,10 +290,13 @@ int main(int argc, char* argv[])
 
 	cout << a.GetX() << endl;
 	a.SetY(5);
-	a.Print();
+	a.Print();*/
 
 	Point b(7, 66);
-	b.Print();
+
+	Human a;
+	a.paintPoint(b);
+	/*b.Print();
 
 	Point c = a + b;
 
@@ -310,6 +332,6 @@ int main(int argc, char* argv[])
 	cout << a[1];
 	return 0;*/
 
-	Cls a;
-	a.PrintMessage();
+	/*Cls a;
+	a.PrintMessage();*/
 }
