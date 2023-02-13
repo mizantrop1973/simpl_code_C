@@ -22,11 +22,11 @@ public:
 
 	{
 		for (int i = 0; str[i] != '\0'; ++i)
-			length = i + 1;
-		this->str = new char[length + 1];
-		for (int i = 0; i < length; ++i)
+			this->length = i + 1;
+		this->str = new char[this->length + 1];
+		for (int i = 0; i < this->length; ++i)
 			this->str[i] = str[i];
-		this->str[length] = '\0';
+		this->str[this->length] = '\0';
 	}
 
 	// ÊÎÍÑÒĞÓÊÒÎĞ ÊÎÏÈĞÎÂÛÀÍÈß
@@ -120,6 +120,11 @@ public:
 		cout << str << endl;
 	}
 
+	int Length()
+	{
+		return length;
+	}
+
 	~String()
 	{
 		delete[] this->str;
@@ -129,9 +134,6 @@ private:
 	char* str;
 	int length;
 };
-
-
-
 
 
 int main(int argc, char* argv[])
