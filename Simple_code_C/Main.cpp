@@ -3,7 +3,7 @@
 #include <math.h>
 #include<algorithm>
 #include<locale.h>
-//#include<string>
+#include<string>
 using namespace std;
 
 class String
@@ -40,6 +40,15 @@ public:
 			this->str[i] = other.str[i];
 		}
 		str[length] = '\0';
+	}
+
+	//  ÊÎÍÑÒĞÓÊÒÎĞ ÏÅĞÅÌÅÙÅÍÈß
+
+	String(String&& other)						  // ïğèíèìàåì ññûëêó íà ññûëêó íà îáúåêò
+	{
+		this->length = other.length;
+		this->str = other.str;
+		other.str = nullptr;
 	}
 
 	// ÏÅĞÅÃĞÓÇÊÀ ÎÏÅĞÀÒÎĞÀ ÏĞÈÑÂÀÈÂÀÍÈß
@@ -100,20 +109,23 @@ public:
 
 	bool operator != (const String& other)
 	{
-		bool result = false;
-
-		if (this->length != other.length)
-			result = true;
-		else
-		{
-			for (int i = 0; i < this->length; ++i)
-			{
-				if (this->str[i] != other.str[i])
-					result = true;
-			}
-		}
-		return result;
+			return !(this->operator==(other));
 	}
+
+	// ÏÅĞÅÃĞÓÇÊÀ ÎÏÅĞÀÒÎĞÀ ÈÍÄÍÊÑÈĞÎÂÀÍÈß
+
+	char & operator [](int index)
+	{
+		return this->str[index];
+	}
+
+	// ÏÅĞÅÃĞÓÇÊÀ ÂÛÂÎÄÀ
+
+	ostream& operator << (ostream& os, const String& str)
+	{
+		return os;
+	}
+	
 
 	void Print()
 	{
@@ -136,21 +148,23 @@ private:
 };
 
 
-int main(int argc, char* argv[])
+int main()
 
 {
 	setlocale(LC_ALL, "ru");
 
 
-	String a("1n3 ");
+	String a("Hello");
 
-	String b = "1l3 ";
+	String b = ", World!";
 
 	bool equal = (a == b);
 	cout << equal << endl;
 
 	bool noequal = (a != b);
 	cout << noequal << endl;
+
+	cout << (a != b) << endl;
 
 	String result;
 	result = a + b;
@@ -161,7 +175,11 @@ int main(int argc, char* argv[])
 	b.Print();
 	result.Print();
 
-
+	cout << a[0] << endl;
+	a[3] ='z';
+	a.Print();
+	a.operator<<();
+	//cout << a;
 	return 0;
 
 
