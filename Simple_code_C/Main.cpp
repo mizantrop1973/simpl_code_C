@@ -133,7 +133,7 @@ class MyClass
 public:	
 	int* data;
 	//int* data;
-
+	     
 
 	MyClass(int size)                                 
 	{
