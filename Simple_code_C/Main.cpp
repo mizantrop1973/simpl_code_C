@@ -11,7 +11,6 @@ class Point;
 
 class Human
 {
-	static int Count;
 public:
 	Human(int age, string name, int weight)
 	{
@@ -24,14 +23,25 @@ public:
 
 	void Print()
 	{
-		cout << "ID " << this->id << "\t" << "Возраст: " << this->age << "\t" << "Имя: " << this->name << "\t" << "Вес: " << this->weight << endl << endl;
+		cout << "ID " << this->id << "\t" << "Возраст: " << this->age << "\t" 
+			<< "Имя: " << this->name << "\t" << "Вес: " << this->weight << endl << endl;
+	}
+
+	static int GetCount()						/// Статический метод - в нем можно обращаться только к статическим переменным класса
+	{
+		return Count;
 	}
 	
+	static void ChangeWeight(Human& human, int weight) /// Пример как в статическом методе менять нестатические поля
+	{
+		human.weight = weight;
+	}
 private:
 	int age;  //поля класса
 	string name;
 	int weight;
 	int id;
+	static int Count;						/// переносим статическую переменную в private и делаем геттер rfr STATIC метод;
 };
 
 int Human::Count = 1000000;
@@ -144,6 +154,16 @@ int main(int argc, char* argv[])
 	d.Print();
 	e.Print();
 	f.Print();
+	cout<< f.GetCount()<<endl;
+
+	cout << Human::GetCount() << endl;
+
+	d.ChangeWeight(d, 100);
+
+	d.Print();
+
+	Human::ChangeWeight(e, 200);
+	e.Print();
 		
 
 	
