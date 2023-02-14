@@ -12,8 +12,9 @@ class Point;
 class Human
 {
 public:
-	void paintPoint(Point& point);       // в C++ об€зательно выносить реализацию дружественных другим классам методов вне класса
+	void paintPoint(const Point&  point);       // в C++ об€зательно выносить реализацию дружественных другим классам методов вне класса
 	void ClearPoint(Point& point);
+
 	
 	
 private:
@@ -29,6 +30,7 @@ private:
 
 class Point
 {
+	friend Human;
 public:
 
 	Point()
@@ -94,18 +96,12 @@ public:
 	}
 
 	friend void ChangeX(Point& value);    // дружественна€ функци€
-	friend void Human::paintPoint(Point& point);  // дружественна€ функци€
+	
 
 private:
 	int x;
 	int y;
 };
-
-
-
-
-
-
 
 class CoffeeGrinder
 {
@@ -255,10 +251,14 @@ void Cls::PrintMessage()
 	cout << "Hello" << endl;
 }
 
-void Human::paintPoint(Point& point)
+void Human::paintPoint(const Point&  point)       //нарушаетс€ инкапсул€ции, чтобы не нарушалась например надо передавать const ccылку
 {
-	cout << "X = " << point.x << "Y = " << point.y << endl;
+	
+	
+	cout << "X = " << point.x <<"\t"<<"Y = " << point.y << endl;
+	
 }
+
 
 
 int main(int argc, char* argv[])
@@ -295,7 +295,11 @@ int main(int argc, char* argv[])
 	Point b(7, 66);
 
 	Human a;
+	
 	a.paintPoint(b);
+	b.Print();
+
+	
 	/*b.Print();
 
 	Point c = a + b;
