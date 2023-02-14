@@ -122,8 +122,64 @@ private:
 	int x;
 	int y;
 };
+class Pixel;
 
 int Point::Count = 0;                           /// инициализация статичной переменной должна быть вне класса!!!!
+
+class Image
+{
+public:
+	void GetImageInfo()
+	{
+		for (int i = 0; i < LENGTH; ++i)
+		{
+			cout << "#"<<i<<" "<<pixels[i].GetInfo() << endl;
+		}
+	}
+	Pixel pix (3,4,5);
+	
+
+
+///private:                                            если разместить вложенный класс в public секции, то мы сможем работать с ним из main напрямую
+	class Pixel
+	{
+	public:
+		Pixel(int r, int g, int b)
+		{
+			this->r = r;
+			this->g = g;
+			this->b = b;
+
+		}
+
+		string GetInfo()
+		{
+			return "Pixel: \tr = "+to_string(r)+"\t\tg = "+to_string(g)+"\t\tb = "+to_string(b);
+		}
+
+	private:
+		int r;
+		int g;
+		int b;
+
+
+	};
+
+	static const int LENGTH = 5;
+
+	Pixel pixels[LENGTH]
+	{
+		Pixel(0,4,64),
+		Pixel(4,14,10),
+		Pixel(111,4,24),
+		Pixel(244,244,14),
+		Pixel(111,179,64)
+
+	};
+private:
+
+
+};
 
 
 int main(int argc, char* argv[])
@@ -131,41 +187,49 @@ int main(int argc, char* argv[])
 {
 	setlocale(LC_ALL, "ru");
 
-	Point b(7, 66);
-	Point a;
-	Point c(2, 3);
+	Image img;
+	img.GetImageInfo();
+
+	Image::Pixel pixel(3, 56, 124);                   /// работа с вложенным классом напрямую когда он в секции public
 	
-	/// Point::Count = 3;                 неинициализированная переменная static дает ошибку
+	cout << pixel.GetInfo() << endl;
 
-	cout << b.Count << endl;  
 
-	//или
+	//Point b(7, 66);
+	//Point a;
+	//Point c(2, 3);
+	//
+	///// Point::Count = 3;                 неинициализированная переменная static дает ошибку
 
-	cout << Point::Count << endl;
+	//cout << b.Count << endl;  
 
-	a.Print();
-	b.Print();
-	c.Print();
+	////или
 
-	Human d(25, "hbh", 78);
-	Human e(44, "okepw", 90);
-	Human f(34, "jvioerv", 65);
+	//cout << Point::Count << endl;
 
-	d.Print();
-	e.Print();
-	f.Print();
-	cout<< f.GetCount()<<endl;
+	//a.Print();
+	//b.Print();
+	//c.Print();
 
-	cout << Human::GetCount() << endl;
+	//Human d(25, "hbh", 78);
+	//Human e(44, "okepw", 90);
+	//Human f(34, "jvioerv", 65);
 
-	d.ChangeWeight(d, 100);
+	//d.Print();
+	//e.Print();
+	//f.Print();
+	//cout<< f.GetCount()<<endl;
 
-	d.Print();
+	//cout << Human::GetCount() << endl;
 
-	Human::ChangeWeight(e, 200);
-	e.Print();
-		
+	//d.ChangeWeight(d, 100);
 
-	
-	
+	//d.Print();
+
+	//Human::ChangeWeight(e, 200);
+	//e.Print();
+	//	
+
+	//
+	return 0;
 }
