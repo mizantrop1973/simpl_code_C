@@ -6,230 +6,88 @@
 #include<string>
 using namespace std;
 
-class Point;
 
+//class Image
+//{
+//public:
+//	void GetImageInfo()
+//	{
+//		for (int i = 0; i < LENGTH; ++i)
+//		{
+//			cout << "#"<<i<<" "<<pixels[i].GetInfo() << endl;
+//		}
+//	}
+//	
+/////private:                                            если разместить вложенный класс в public секции, то мы сможем работать с ним из main напрямую
+//	
+//private:
+//
+//};
 
-class Human
+class Pixel
 {
 public:
-	Human(int age, string name, int weight)
+	Pixel()
 	{
-		this->age = age;
-		this->name = name;
-		this->weight = weight;
-		++Count;
-		id = Count;		 
+		r = g = b = 0;
 	}
 
-	void Print()
+
+
+	Pixel(int r, int g, int b)
 	{
-		cout << "ID " << this->id << "\t" << "Возраст: " << this->age << "\t" 
-			<< "Имя: " << this->name << "\t" << "Вес: " << this->weight << endl << endl;
+		this->r = r;
+		this->g = g;
+		this->b = b;
 	}
 
-	static int GetCount()						/// Статический метод - в нем можно обращаться только к статическим переменным класса
+	string GetInfo()
 	{
-		return Count;
+		return "Pixel: \tr = " + to_string(r) + "\t\tg = " + to_string(g) + "\t\tb = " + to_string(b);
 	}
-	
-	static void ChangeWeight(Human& human, int weight) /// Пример как в статическом методе менять нестатические поля
-	{
-		human.weight = weight;
-	}
-private:
-	int age;  //поля класса
-	string name;
-	int weight;
-	int id;
-	static int Count;						/// переносим статическую переменную в private и делаем геттер rfr STATIC метод;
-};
-
-int Human::Count = 1000000;
-
-class Point
-{
-public:
-	static int Count;
-
-	Point()
-	{
-		x = 0;
-		y = 0;
-		cout << this << " constructor" << endl;
-		++Count;
-	}
-
-	Point(int valueX, int valueY) // конструктор
-	{
-		x = valueX;
-		y = valueY;
-		++Count;
-		cout << this << " constructor" << endl;
-	}
-
-	Point operator + (const Point& other)
-	{
-		Point temp;
-		temp.x = this->x + other.x;
-		temp.y = this->y + other.y;
-		return temp;
-	}
-
-	int GetX()
-	{
-		return x;
-	}
-
-	void SetX(int valueX)
-	{
-		x = valueX;
-	}
-
-	int GetY()
-	{
-		return y;
-	}
-
-	void SetY(int y)
-	{
-		this->y = y;
-	}
-
-	void Print()
-	{
-		cout << "X = " << x << "\t Y = " << y << endl << endl;
-	}
-
-	Point& operator ++()  // префиксный инкремент
-	{
-		++this->x;
-		++this->y;
-		return *this;
-	}
-
-	Point& operator ++(int value)  // постфиксный инкремент
-	{
-		Point temp(*this);
-		this->x++;
-		this->y++;
-		return temp;
-	}
-
-	friend void ChangeX(Point& value);    // дружественная функция
-	
 
 private:
-	int x;
-	int y;
+	int r;
+	int g;
+	int b;
 };
-class Pixel;
 
-int Point::Count = 0;                           /// инициализация статичной переменной должна быть вне класса!!!!
-
-class Image
-{
-public:
-	void GetImageInfo()
-	{
-		for (int i = 0; i < LENGTH; ++i)
-		{
-			cout << "#"<<i<<" "<<pixels[i].GetInfo() << endl;
-		}
-	}
-	Pixel pix (3,4,5);
-	
-
-
-///private:                                            если разместить вложенный класс в public секции, то мы сможем работать с ним из main напрямую
-	class Pixel
-	{
-	public:
-		Pixel(int r, int g, int b)
-		{
-			this->r = r;
-			this->g = g;
-			this->b = b;
-
-		}
-
-		string GetInfo()
-		{
-			return "Pixel: \tr = "+to_string(r)+"\t\tg = "+to_string(g)+"\t\tb = "+to_string(b);
-		}
-
-	private:
-		int r;
-		int g;
-		int b;
-
-
-	};
-
-	static const int LENGTH = 5;
-
-	Pixel pixels[LENGTH]
-	{
-		Pixel(0,4,64),
-		Pixel(4,14,10),
-		Pixel(111,4,24),
-		Pixel(244,244,14),
-		Pixel(111,179,64)
-
-	};
-private:
-
-
-};
 
 
 int main(int argc, char* argv[])
 
 {
 	setlocale(LC_ALL, "ru");
+	const int LENGTH = 5;
 
-	Image img;
-	img.GetImageInfo();
+	///СТАТИЧЕСКИЕ МАССИВЫ
 
-	Image::Pixel pixel(3, 56, 124);                   /// работа с вложенным классом напрямую когда он в секции public
-	
-	cout << pixel.GetInfo() << endl;
+	/*
 
+	Pixel pixels[LENGTH]
 
-	//Point b(7, 66);
-	//Point a;
-	//Point c(2, 3);
-	//
-	///// Point::Count = 3;                 неинициализированная переменная static дает ошибку
+	{
+		Pixel(0, 4, 64),
+		Pixel(4, 14, 10),
+		Pixel(111, 4, 24),
+		Pixel(244, 244, 14),
+		Pixel(111, 179, 64)
+	};
 
-	//cout << b.Count << endl;  
+	pixels[0] = Pixel(11, 12, 45);
 
-	////или
+	cout<<pixels[0].GetInfo()<<endl;*/
 
-	//cout << Point::Count << endl;
+	/// ДИНАМИЧЕСКИЕ МАССИВЫ
 
-	//a.Print();
-	//b.Print();
-	//c.Print();
+	Pixel* pixels = new Pixel[LENGTH];
 
-	//Human d(25, "hbh", 78);
-	//Human e(44, "okepw", 90);
-	//Human f(34, "jvioerv", 65);
+	pixels[0] = Pixel(11, 12, 45);
 
-	//d.Print();
-	//e.Print();
-	//f.Print();
-	//cout<< f.GetCount()<<endl;
+	cout << pixels[0].GetInfo() << endl;
 
-	//cout << Human::GetCount() << endl;
+	delete[] pixels;
 
-	//d.ChangeWeight(d, 100);
-
-	//d.Print();
-
-	//Human::ChangeWeight(e, 200);
-	//e.Print();
-	//	
-
-	//
+	                  
 	return 0;
 }
