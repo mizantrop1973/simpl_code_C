@@ -5,120 +5,71 @@
 #include<locale.h>
 #include<string>
 using namespace std;
-
-class Human 
+								/// МОДИФИКАТОРЫ ДОСТУПА ПРИ НАСЛЕДОВАНИИ///
+class A
 {
-public:
-	Human ();
-	~Human ();
-	string GetName()
-	{
-		return name;
-	}
-	void SenName(string name)
-	{
-		this->name = name;
-	}
+public:							/// при каждом  модификаторе доступа наследования поле меняет расположение в соответствующей секции 
+	A();						/// в сответствии с модификтором наследования. 
+	~A();										
+	int a = 2;
 
-	//string name;
+private:						/// при всех модификаторах доступа наследования поле будет  private 
 
-private:
-	string name;
-};
+	int b = 3;
 
-Human ::Human ()
-{
-}
+protected:						/// поле либо остается protected , либо (при модификаторе доступа private) становится private
 
-Human ::~Human ()
-{
-}
-
-class Student : public Human
-{
-public:
-	Student();
-	~Student();
-	string group;
-
-	void Learn()
-	{
-		cout << "Я учусь!" << endl;
-	}
-
-private:
+	int c = 6;
 
 };
 
-Student::Student()
+A::A()
 {
 }
 
-Student::~Student()
+A::~A()
 {
 }
 
-class ExtramuralStudent : public Student
+
+class B : protected A
 {
 public:
-	ExtramuralStudent();
-	~ExtramuralStudent();
+	B();
+	~B();
 
-	void Learn()
+	void Print()
 	{
-		cout << "Я хожу в университет раз в полгода" << endl;
-	}
+		cout << a << endl;
+		///cout << b << endl;                ///private поля родительского класса недоступны в наследнике
+		cout << c << endl;					///protected поля родительского класса доступны в наследнике
+	} 
 
 private:
 
 };
 
-ExtramuralStudent::ExtramuralStudent()
+B::B()
 {
 }
 
-ExtramuralStudent::~ExtramuralStudent()
+B::~B()
 {
 }
 
-class Professor : public Human
-{
-public:
-	Professor();
-	~Professor();
-	string subject;
-
-private:
-
-};
-
-Professor::Professor()
-{
-}
-
-Professor::~Professor()
-{
-}
 
 int main(int argc, char* argv[])
 
 {
 	setlocale(LC_ALL, "ru");
 
-	Student st;
-	st.Learn();
-	cout<<st.GetName()<<endl;
-	
-	Professor pr;
+	B b;
 
-	ExtramuralStudent extraSt;
-	extraSt.Learn();
-	extraSt.SenName("Иванов");
-	cout<<extraSt.GetName()<<endl;
-	st.SenName("Петров");
-	cout << st.GetName() << endl;
+	///cout << b.a<<endl;
+	///cout << b.b<<endl;                          private и protected поля родительского класса недоступны нигде
+	///cout << b.c<<endl;
 	
-	
+	b.Print();										/// через метод наследника можно получить дотсуп к public и protected полям, но не к private
 
 	
 	return 0;
