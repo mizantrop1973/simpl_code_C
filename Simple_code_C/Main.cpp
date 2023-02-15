@@ -5,56 +5,65 @@
 #include<locale.h>
 #include<string>
 using namespace std;
-								/// МОДИФИКАТОРЫ ДОСТУПА ПРИ НАСЛЕДОВАНИИ///
+								
 class A
 {
-public:							/// при каждом  модификаторе доступа наследования поле меняет расположение в соответствующей секции 
-	A();						/// в сответствии с модификтором наследования. 
+public:							
+	A();
+	A(string b);
 	~A();										
-	int a = 2;
+	void Print_b()
+	{
+		cout << b << endl;
+	}
 
-private:						/// при всех модификаторах доступа наследования поле будет  private 
+private:						
 
-	int b = 3;
-
-protected:						/// поле либо остается protected , либо (при модификаторе доступа private) становится private
-
-	int c = 6;
+	string b;
 
 };
 
 A::A()
 {
+	cout << "Вызван конструктор А по умолчанию" << endl;
 }
+
+A::A(string b)
+{
+	cout << "Вызван конструктор А с параметром" << endl;
+	this->b = b;
+}
+
 
 A::~A()
 {
+	cout << "Вызван деструктор А" << endl;
 }
 
 
-class B : protected A
+class B : public A
 {
 public:
 	B();
 	~B();
 
 	void Print()
-	{
-		cout << a << endl;
-		///cout << b << endl;                ///private поля родительского класса недоступны в наследнике
-		cout << c << endl;					///protected поля родительского класса доступны в наследнике
+	{         
+						
 	} 
 
 private:
 
 };
 
-B::B()
+B::B():A("new")
 {
+	cout << "Вызван конструктор B" << endl;
 }
 
 B::~B()
 {
+	cout << "Вызван деструктор B" << endl;
 }
 
 
@@ -63,13 +72,11 @@ int main(int argc, char* argv[])
 {
 	setlocale(LC_ALL, "ru");
 
-	B b;
+	A a("Hello");
+	a.Print_b();
 
-	///cout << b.a<<endl;
-	///cout << b.b<<endl;                          private и protected поля родительского класса недоступны нигде
-	///cout << b.c<<endl;
-	
-	b.Print();										/// через метод наследника можно получить дотсуп к public и protected полям, но не к private
+	B b;
+	b.Print_b();
 
 	
 	return 0;
