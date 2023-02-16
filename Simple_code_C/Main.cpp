@@ -41,22 +41,22 @@ Gun::~Gun()
 class SubMachineGun:public Gun
 {
 public:
-	SubMachineGun(string sound):Gun(sound){};
+	SubMachineGun(string sound);
 	~SubMachineGun();
 
 	string GetSound() override
 	{
-		return "BUH" + ::Gun::GetSound() + "BUH";
+		return "BUH" + ::Gun::GetSound() + "BUH";   /// синтаксис ссылки на метод базового класса (иначе ссылка идет на наследник)
 	}
 
 private:
 
 };
 
-//SubMachineGun::SubMachineGun(string sound) :Gun(sound)
-//{
-//
-//}
+SubMachineGun::SubMachineGun(string sound) :Gun(sound)    /// конструктор делегирует конструктру базового класса, 
+{															///  и это указывается в определении, а не в объявлении
+
+}
 
 SubMachineGun::~SubMachineGun()
 {
