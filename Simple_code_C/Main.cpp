@@ -6,15 +6,34 @@
 #include<string>
 using namespace std;
 								
-											/// ѕќЋ»ћќ–‘»«ћ
-class Gun
+											/// јЅ—“–ј “Ќџ≈  Ћј——џ
+
+class Weapon
+{
+public:
+	
+	virtual void Shoot() = 0;            /// чисто виртуальна€ функци€ , если есть хоть одна чисто виртуальна€ ф-ци€, то класс абстрактный
+										/// тут так же могут быть определенные методы, но класс уже абстрактный
+	void Foo()
+	{
+		cout << "Foo" << endl;
+	}
+
+private:
+
+};
+
+
+
+
+class Gun:public Weapon
 {
 public:
 	Gun();
 	~Gun();
-	virtual void Shoot()                 /// без этого модификатора ссылка на базовый класс и на наследник в программе 
-	{									///  всегда будет вызывать метод базового класса, а с ним - в зависимости от того на какой
-		cout << "BANG!!" << endl;		///  класс ссылка (см. main)
+	void Shoot() override               
+	{									
+		cout << "BANG!!" << endl;		
 	}
 private:
 
@@ -51,7 +70,7 @@ SubMachineGun::~SubMachineGun()
 {
 }
 
-class Bazooka:public Gun
+class Bazooka:public Weapon
 {
 public:
 	Bazooka();
@@ -73,15 +92,36 @@ Bazooka::~Bazooka()
 {
 }
 
+class Knife: public Weapon
+{
+public:
+	Knife();
+	~Knife();
+	void Shoot() override                      ///в наследниках абстрактного класса виртуальный метод (чисто) должен быть об€зательно определен
+	{
+		cout << "Vjuuuhhh" << endl;
+	}
+private:
+
+};
+
+Knife::Knife()
+{
+}
+
+Knife::~Knife()
+{
+}
+
 class Player
 {
 public:
 	Player();
 	~Player();
 
-	void Shoot(Gun* gun)
+	void Shoot(Weapon* weapon)
 	{
-		gun->Shoot();
+		weapon->Shoot();
 	}
 
 
@@ -106,16 +146,7 @@ int main(int argc, char* argv[])
 	Gun gun;
 	SubMachineGun machinegun;
 	Bazooka bazooka;
-	gun.Shoot();
-
-	Gun* weapon = &gun;
-
-	Gun* a = &machinegun;
-
-	
-
-	a->Shoot();
-	weapon->Shoot();
+	Knife knife;
 
 	Player player;
 
@@ -123,7 +154,9 @@ int main(int argc, char* argv[])
 	player.Shoot(&gun);
 
 	player.Shoot(&bazooka);
+	player.Shoot(&knife);
 	
+	knife.Foo();
 	return 0;
 
 
