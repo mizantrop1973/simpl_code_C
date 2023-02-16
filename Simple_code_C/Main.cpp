@@ -6,64 +6,95 @@
 #include<string>
 using namespace std;
 								
-class A
+											/// ПОЛИМОРФИЗМ
+class Gun
 {
-public:							
-	A();
-	A(string b);
-	~A();										
-	void Print_b()
-	{
-		cout << b << endl;
+public:
+	Gun();
+	~Gun();
+	virtual void Shoot()                 /// без этого модификатора ссылка на базовый класс и на наследник в программе 
+	{									///  всегда будет вызывать метод базового класса, а с ним - в зависимости от того на какой
+		cout << "BANG!!" << endl;		///  класс ссылка (см. main)
 	}
-
-private:						
-
-	string b;
+private:
 
 };
 
-A::A()
+Gun::Gun()
 {
-	cout << "Вызван конструктор А по умолчанию" << endl;
 }
 
-A::A(string b)
+Gun::~Gun()
 {
-	cout << "Вызван конструктор А с параметром" << endl;
-	this->b = b;
 }
 
-
-A::~A()
-{
-	cout << "Вызван деструктор А" << endl;
-}
-
-
-class B : public A
+class SubMachineGun :public Gun
 {
 public:
-	B();
-	~B();
+	SubMachineGun();
+	~SubMachineGun();
 
-	void Print()
-	{         
-						
-	} 
+	void Shoot() override                      ///override не обязателен, но он контролирует идентичность сигнатуры метода Shoot
+	{
+		cout << "BANG!!  BANG!!  BANG!!" << endl;
+	}
 
 private:
 
 };
 
-B::B():A("new")
+SubMachineGun::SubMachineGun()
 {
-	cout << "Вызван конструктор B" << endl;
 }
 
-B::~B()
+SubMachineGun::~SubMachineGun()
 {
-	cout << "Вызван деструктор B" << endl;
+}
+
+class Bazooka:public Gun
+{
+public:
+	Bazooka();
+	~Bazooka();
+	void Shoot() override                      ///override не обязателен, но он контролирует идентичность сигнатуры метода Shoot
+	{
+		cout << "BARABOOOM!!!" << endl;
+	}
+
+private:
+
+};
+
+Bazooka::Bazooka()
+{
+}
+
+Bazooka::~Bazooka()
+{
+}
+
+class Player
+{
+public:
+	Player();
+	~Player();
+
+	void Shoot(Gun* gun)
+	{
+		gun->Shoot();
+	}
+
+
+private:
+
+};
+
+Player::Player()
+{
+}
+
+Player::~Player()
+{
 }
 
 
@@ -72,12 +103,26 @@ int main(int argc, char* argv[])
 {
 	setlocale(LC_ALL, "ru");
 
-	A a("Hello");
-	a.Print_b();
+	Gun gun;
+	SubMachineGun machinegun;
+	Bazooka bazooka;
+	gun.Shoot();
 
-	B b;
-	b.Print_b();
+	Gun* weapon = &gun;
 
+	Gun* a = &machinegun;
+
+	
+
+	a->Shoot();
+	weapon->Shoot();
+
+	Player player;
+
+	player.Shoot(&machinegun);
+	player.Shoot(&gun);
+
+	player.Shoot(&bazooka);
 	
 	return 0;
 
