@@ -6,14 +6,15 @@
 #include<string>
 using namespace std;
 								
-											/// ВИРТУАЛЬНЫЙ ДЕСТРУКТОР
+											/// ЧИСТО ВИРТУАЛЬНЫЙ ДЕСТРУКТОР
 
 class Weapon
 {
 public:
 	Weapon();
-	virtual ~Weapon();					/// виртуальный деструктор
-	
+	virtual ~Weapon() = 0;					/// чисто виртуальный деструктор 
+
+
 	virtual void Shoot() = 0;            /// чисто виртуальная функция , если есть хоть одна чисто виртуальная ф-ция, то класс абстрактный
 										/// тут так же могут быть определенные методы, но класс уже абстрактный
 	void Foo()
@@ -25,16 +26,13 @@ private:
 
 };
 
-Weapon::Weapon()
+Weapon::Weapon() 
 {
-	cout << "выделена динамическая память Weapon" << endl;
-}
+	
+};					
 
-Weapon::~Weapon()
-{
-	cout << "освобождена динамическая память Weapon" << endl;
-}
 
+Weapon::~Weapon() {};           /// в чисто виртуальном деструкторе обязательно выносить определение деструктора в данном синтаксисе
 
 
 class Gun:public Weapon
@@ -61,77 +59,77 @@ Gun::~Gun()
 	cout << "освобождена динамическая память Gun" << endl;
 }
 
-class SubMachineGun :public Gun
-{
-public:
-	SubMachineGun();
-	~SubMachineGun();
-
-	void Shoot() override                      ///override не обязателен, но он контролирует идентичность сигнатуры метода Shoot
-	{
-		cout << "BANG!!  BANG!!  BANG!!" << endl;
-	}
-
-private:
-
-};
-
-SubMachineGun::SubMachineGun()
-{
-	cout << "выделена динамическая память SubMachineGun" << endl;
-}
-
-SubMachineGun::~SubMachineGun()
-{
-	cout << "освобождена динамическая память SubMachineGun" << endl;
-}
-
-class Bazooka:public Weapon
-{
-public:
-	Bazooka();
-	~Bazooka();
-	void Shoot() override                      ///override не обязателен, но он контролирует идентичность сигнатуры метода Shoot
-	{
-		cout << "BARABOOOM!!!" << endl;
-	}
-
-private:
-
-};
-
-Bazooka::Bazooka()
-{
-	cout << "выделена динамическая память Bazooka" << endl;
-}
-
-Bazooka::~Bazooka()
-{
-	cout << "освобождена динамическая память Bazooka" << endl;
-}
-
-class Knife: public Weapon
-{
-public:
-	Knife();
-	~Knife();
-	void Shoot() override                      ///в наследниках абстрактного класса виртуальный метод (чисто) должен быть обязательно определен
-	{
-		cout << "Vjuuuhhh" << endl;
-	}
-private:
-
-};
-
-Knife::Knife()
-{
-	cout << "выделена динамическая память Knife" << endl;
-}
-
-Knife::~Knife()
-{
-	cout << "освобождена динамическая память Knife" << endl;
-}
+//class SubMachineGun :public Gun
+//{
+//public:
+//	SubMachineGun();
+//	~SubMachineGun();
+//
+//	void Shoot() override                      ///override не обязателен, но он контролирует идентичность сигнатуры метода Shoot
+//	{
+//		cout << "BANG!!  BANG!!  BANG!!" << endl;
+//	}
+//
+//private:
+//
+//};
+//
+//SubMachineGun::SubMachineGun()
+//{
+//	cout << "выделена динамическая память SubMachineGun" << endl;
+//}
+//
+//SubMachineGun::~SubMachineGun()
+//{
+//	cout << "освобождена динамическая память SubMachineGun" << endl;
+//}
+//
+//class Bazooka:public Weapon
+//{
+//public:
+//	Bazooka();
+//	~Bazooka();
+//	void Shoot() override                      ///override не обязателен, но он контролирует идентичность сигнатуры метода Shoot
+//	{
+//		cout << "BARABOOOM!!!" << endl;
+//	}
+//
+//private:
+//
+//};
+//
+//Bazooka::Bazooka()
+//{
+//	cout << "выделена динамическая память Bazooka" << endl;
+//}
+//
+//Bazooka::~Bazooka()
+//{
+//	cout << "освобождена динамическая память Bazooka" << endl;
+//}
+//
+//class Knife: public Weapon
+//{
+//public:
+//	Knife();
+//	~Knife();
+//	void Shoot() override                      ///в наследниках абстрактного класса виртуальный метод (чисто) должен быть обязательно определен
+//	{
+//		cout << "Vjuuuhhh" << endl;
+//	}
+//private:
+//
+//};
+//
+//Knife::Knife()
+//{
+//	cout << "выделена динамическая память Knife" << endl;
+//}
+//
+//Knife::~Knife()
+//{
+//	cout << "освобождена динамическая память Knife" << endl;
+//}
 
 class Player
 {
@@ -180,7 +178,8 @@ int main(int argc, char* argv[])
 	Weapon* gunptr = new Gun;
 	delete gunptr;
 
-	return 0;
 
+	///Weapon weapon;   /// так как метод стрелять закомментирован, у нас только виртуальный деструктор
+	return 0;		    /// он делает класс абстрактным
 
 }
