@@ -5,85 +5,105 @@
 #include<locale.h>
 #include<string>
 using namespace std;
+													/// ИНТЕРФЕЙСЫ - АБСТРАКТНЫЙ КЛАСС, В КОТОРОМ ВСЕ МЕТОДЫ ЧИСТО ВИРТУАЛЬНЫЕ
 
-class Car
+class IBicycle
 {
 public:
-	Car();
-	~Car();
-	string str = "Поле класса машина";
-	void Drive()
-	{
-		cout << "Я еду!" << endl;
-	}
-
-	void Use()
-	{
-		cout << "Я еду!" << endl;
-	}
+	IBicycle();
+	~IBicycle();
+	void virtual TwistTheWeel() = 0;
+	void virtual Ride() = 0;
 
 private:
 
 };
 
-Car::Car()
+IBicycle::IBicycle()
 {
-	cout << "Create Car" << endl;
 }
 
-Car::~Car()
+IBicycle::~IBicycle()
 {
-	cout << "Delete Car" << endl;
 }
 
-class Airplain
+class Human
 {
 public:
-	Airplain();
-	~Airplain();
-	string str2 = "Поле класса самолет";
-	void Fly()
+	Human();
+	~Human();
+	void RideOn(IBicycle& bicycle)
 	{
-		cout << "Я лечу!" << endl;
+		cout << "Крутим руль" << endl;
+		bicycle.TwistTheWeel();
+		cout << "Поехали" << endl;
+		bicycle.Ride();
+	}
+private:
+
+};
+
+Human::Human()
+{
+}
+
+Human::~Human()
+{
+}
+
+class SimpleBicycle : public IBicycle           ///реализация интерфейса
+{
+public:
+	SimpleBicycle();
+	~SimpleBicycle();
+	void  TwistTheWeel() override
+	{
+		cout << "метод TwistTheWeel() SimpleBicycle" << endl;
+	}
+	void virtual Ride() override
+	{
+		cout << "метод Ride() SimpleBicycle" << endl;
 	}
 
-	void Use()
-	{
-		cout << "Я лечу!" << endl;
-	}
+
 
 private:
 
 };
 
-Airplain::Airplain()
+SimpleBicycle::SimpleBicycle()
 {
-	cout << "Create Airplane" << endl;
 }
 
-Airplain::~Airplain()
+SimpleBicycle::~SimpleBicycle()
 {
-	cout << "Delete Airplain" << endl;
 }
 
-class FlyingCar : public Car , public Airplain   /// конструторы вызываются в порядке наследования!!!!
+class SportBicycle : public IBicycle
 {
 public:
-	FlyingCar();
-	~FlyingCar();
+	SportBicycle();
+	~SportBicycle();
+	void  TwistTheWeel() override
+	{
+		cout << "метод TwistTheWeel() SportBicycle" << endl;
+	}
+	void virtual Ride() override
+	{
+		cout << "метод Ride() SportBicycle" << endl;
+	}
+
 
 private:
 
 };
 
-FlyingCar::FlyingCar()
+SportBicycle::SportBicycle()
 {
-	cout << "Create FlyingCar" << endl;
 }
 
-FlyingCar::~FlyingCar()
+SportBicycle::~SportBicycle()
 {
-	cout << "Delete FlyingCar" << endl;
 }
 
 int main(int argc, char* argv[])
@@ -91,24 +111,13 @@ int main(int argc, char* argv[])
 {
 	setlocale(LC_ALL, "ru");
 
-	Car c;
-	c.Drive();
-	
-	Airplain a;
-	a.Fly();
+	SimpleBicycle sb;
 
-	FlyingCar b;
-	b.Drive();
-	b.Fly();
+	Human h;
+	h.RideOn(sb);
 
-	((Car)b).Use();
-	
-	((Airplain)b).Use();
-	
-
-	Car* ptrC = &b;
-
-	Airplain* ptrA = &b;
+	SportBicycle sportb;
+	h.RideOn(sportb);
 
 	return 0;
 
