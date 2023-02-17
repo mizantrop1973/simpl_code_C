@@ -6,98 +6,84 @@
 #include<string>
 using namespace std;
 
-class Human 
+class Car
 {
 public:
-	Human ();
-	~Human ();
-	string GetName()
+	Car();
+	~Car();
+	string str = "Поле класса машина";
+	void Drive()
 	{
-		return name;
-	}
-	void SenName(string name)
-	{
-		this->name = name;
+		cout << "Я еду!" << endl;
 	}
 
-	//string name;
-
-private:
-	string name;
-};
-
-Human ::Human ()
-{
-}
-
-Human ::~Human ()
-{
-}
-
-class Student : public Human
-{
-public:
-	Student();
-	~Student();
-	string group;
-
-	void Learn()
+	void Use()
 	{
-		cout << "Я учусь!" << endl;
+		cout << "Я еду!" << endl;
 	}
 
 private:
 
 };
 
-Student::Student()
+Car::Car()
 {
+	cout << "Create Car" << endl;
 }
 
-Student::~Student()
+Car::~Car()
 {
+	cout << "Delete Car" << endl;
 }
 
-class ExtramuralStudent : public Student
+class Airplain
 {
 public:
-	ExtramuralStudent();
-	~ExtramuralStudent();
-
-	void Learn()
+	Airplain();
+	~Airplain();
+	string str2 = "Поле класса самолет";
+	void Fly()
 	{
-		cout << "Я хожу в университет раз в полгода" << endl;
+		cout << "Я лечу!" << endl;
+	}
+
+	void Use()
+	{
+		cout << "Я лечу!" << endl;
 	}
 
 private:
 
 };
 
-ExtramuralStudent::ExtramuralStudent()
+Airplain::Airplain()
 {
+	cout << "Create Airplane" << endl;
 }
 
-ExtramuralStudent::~ExtramuralStudent()
+Airplain::~Airplain()
 {
+	cout << "Delete Airplain" << endl;
 }
 
-class Professor : public Human
+class FlyingCar : public Car , public Airplain   /// конструторы вызываются в порядке наследования!!!!
 {
 public:
-	Professor();
-	~Professor();
-	string subject;
+	FlyingCar();
+	~FlyingCar();
 
 private:
 
 };
 
-Professor::Professor()
+FlyingCar::FlyingCar()
 {
+	cout << "Create FlyingCar" << endl;
 }
 
-Professor::~Professor()
+FlyingCar::~FlyingCar()
 {
+	cout << "Delete FlyingCar" << endl;
 }
 
 int main(int argc, char* argv[])
@@ -105,22 +91,25 @@ int main(int argc, char* argv[])
 {
 	setlocale(LC_ALL, "ru");
 
-	Student st;
-	st.Learn();
-	cout<<st.GetName()<<endl;
+	Car c;
+	c.Drive();
 	
-	Professor pr;
+	Airplain a;
+	a.Fly();
 
-	ExtramuralStudent extraSt;
-	extraSt.Learn();
-	extraSt.SenName("Иванов");
-	cout<<extraSt.GetName()<<endl;
-	st.SenName("Петров");
-	cout << st.GetName() << endl;
+	FlyingCar b;
+	b.Drive();
+	b.Fly();
+
+	((Car)b).Use();
 	
+	((Airplain)b).Use();
 	
 
-	
+	Car* ptrC = &b;
+
+	Airplain* ptrA = &b;
+
 	return 0;
 
 
