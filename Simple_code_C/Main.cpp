@@ -5,85 +5,177 @@
 #include<locale.h>
 #include<string>
 using namespace std;
+											/// ВИРТУАЛЬНО НАСЛЕДОВАНИЕ (РОМБОВИДНОЕ)
 
-class Car
+//class Component
+//{
+//public:
+//	Component(string companyName);     /// в такой реализации казалось бы проблем нет (Поле передается при каждом создании). 
+//	~Component();						/// Но если есть поле, которое расчитывается и не передается каждый раз, то оно начинает дублироваться
+//	string companyName;
+//private:
+//
+//};
+//
+//Component::Component(string companyName)
+//{
+//	cout << "constructor Component " << endl;
+//	this->companyName = companyName;
+//}
+//
+//Component::~Component()
+//{
+//}
+//
+//class GPU : public Component
+//{
+//public:
+//	GPU(string companyName);
+//	~GPU();
+//
+//private:
+//
+//};
+//
+//GPU::GPU (string companyName) : Component(companyName)
+//{
+//	cout << "constructor GPU " << endl;
+//}
+//
+//GPU::~GPU ()
+//{
+//}
+//
+//class Memory :public Component
+//{
+//public:
+//	Memory(string companyName);
+//	~Memory();
+//
+//private:
+//
+//};
+//
+//Memory::Memory(string companyName) : Component(companyName)
+//{
+//	cout << "constructor Memory " << endl;
+//}
+//Memory::~Memory()
+//{
+//}
+//
+//class GraphicCard : public GPU, public Memory
+//
+//{
+//public:
+//	GraphicCard(string GPUCompanyName, string MemoryCompanyName);
+//	~GraphicCard();
+//
+//
+//private:
+//
+//};
+//
+//GraphicCard::GraphicCard(string GPUCompanyName, string MemoryCompanyName):GPU(GPUCompanyName), Memory(MemoryCompanyName)
+//{
+//	cout << "constructor GraphicCard " << endl;
+//}
+//
+//GraphicCard
+//::~GraphicCard()
+//{
+//}
+//
+//int main(int argc, char* argv[])
+//
+//{
+//	setlocale(LC_ALL, "ru");
+//
+//	GraphicCard gc("AMD", "Sumsung");
+//
+//	return 0;
+//
+//
+//}
+
+class Character
 {
 public:
-	Car();
-	~Car();
-	string str = "Поле класса машина";
-	void Drive()
-	{
-		cout << "Я еду!" << endl;
-	}
+	Character();
+	~Character();
 
-	void Use()
-	{
-		cout << "Я еду!" << endl;
-	}
+	int HP;										/// вот это поле будет дублироваться в разные наследники
+												/// выход - чтобы наследники были не от класса, а от объекта класса
+private:										/// для этого используется виртуальное наследование
+
+};
+
+Character::Character()
+{
+	cout << "constructor Character" << endl;
+}
+
+Character::~Character()
+{
+}
+
+
+class Orc:public virtual Character						/// вот тут это реализуем
+{
+public:
+	Orc();
+	~Orc();
 
 private:
 
 };
 
-Car::Car()
+Orc::Orc()
 {
-	cout << "Create Car" << endl;
+	cout << "constructor Orc" << endl;
 }
 
-Car::~Car()
+Orc::~Orc()
 {
-	cout << "Delete Car" << endl;
 }
 
-class Airplain
+
+class Warrior: virtual public Character
 {
 public:
-	Airplain();
-	~Airplain();
-	string str2 = "Поле класса самолет";
-	void Fly()
-	{
-		cout << "Я лечу!" << endl;
-	}
-
-	void Use()
-	{
-		cout << "Я лечу!" << endl;
-	}
+	Warrior();
+	~Warrior();
 
 private:
 
 };
 
-Airplain::Airplain()
+Warrior::Warrior()
 {
-	cout << "Create Airplane" << endl;
+	cout << "constructor Warrior" << endl;
 }
 
-Airplain::~Airplain()
+Warrior::~Warrior()
 {
-	cout << "Delete Airplain" << endl;
 }
 
-class FlyingCar : public Car , public Airplain   /// конструторы вызываются в порядке наследования!!!!
+class OrcWarrior:public Orc, public Warrior
 {
 public:
-	FlyingCar();
-	~FlyingCar();
+	OrcWarrior();
+	~OrcWarrior();
 
 private:
 
 };
 
-FlyingCar::FlyingCar()
+OrcWarrior::OrcWarrior()
 {
-	cout << "Create FlyingCar" << endl;
+	cout << "constructor OrcWarrior" << endl;
 }
 
-FlyingCar::~FlyingCar()
+OrcWarrior::~OrcWarrior()
 {
-	cout << "Delete FlyingCar" << endl;
 }
 
 int main(int argc, char* argv[])
@@ -91,24 +183,8 @@ int main(int argc, char* argv[])
 {
 	setlocale(LC_ALL, "ru");
 
-	Car c;
-	c.Drive();
+	OrcWarrior ow;
 	
-	Airplain a;
-	a.Fly();
-
-	FlyingCar b;
-	b.Drive();
-	b.Fly();
-
-	((Car)b).Use();
-	
-	((Airplain)b).Use();
-	
-
-	Car* ptrC = &b;
-
-	Airplain* ptrA = &b;
 
 	return 0;
 
