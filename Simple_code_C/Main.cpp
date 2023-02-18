@@ -4,6 +4,7 @@
 #include<algorithm>							/// библиотека ф-ций
 #include<locale.h>							/// язык
 #include<fstream>							/// поток в файлы
+#include<string>
 using namespace std;
 
 
@@ -30,26 +31,57 @@ int  main()
 
 	fout.close();				/// закрываем файл*/
 
-	fout.open(path, ofstream::app);           /// добавляем, не затираем
+	//fout.open(path, ofstream::app);           /// добавляем, не затираем
 
-	if (!fout.is_open())		/// fout.is_open()  возвращает   bool , 
+	//if (!fout.is_open())		/// fout.is_open()  возвращает   bool , 
+	//{
+	//	cout << "Error of file's opening" << endl;
+	//}
+	//else
+	//{
+	//	for (size_t i = 0; i < 7; ++i)
+	//	{
+	//		cout << "Enter a number:" << endl;
+	//		int a;
+	//		cin >> a;
+	//		//fout << endl<< "NEW datas" << endl;
+	//		fout << a << endl;
+	//	}
+	//}
+
+	//fout.close();				/// закрываем файл
+
+	ifstream fin;
+
+	fin.open(path);
+	if (!fin.is_open())		/// fout.is_open()  возвращает   bool , 
 	{
 		cout << "Error of file's opening" << endl;
 	}
 	else
 	{
-		for (size_t i = 0; i < 7; ++i)
+		cout << "File is open" << endl;
+		char str1[50]{};
+		char ch;
+		string str;
+		//while (fin.get(ch))						/// посимвольно считываем, в т.ч. переносы строк (неявные)
+		while(!fin.eof())							/// eof считывает строки  ДО окончания файла
 		{
-			cout << "Enter a number:" << endl;
-			int a;
-			cin >> a;
-			//fout << endl<< "NEW datas" << endl;
-			fout << a << endl;
+			//cout << ch;
+			str = "";								/// исправит ошибку двойного вывода последней строки
+			//fin >> str;								/// ВНИМАНИЕ. Метод считывая строку ДО ПЕРВОГО ПРОБЕЛА! 
+			//getline(fin, str/*,";"*/);				/// считывает строку ДО "сепаратора" - третий, необязательный аргумент, по умолчанию -  \n
+			fin.getline(str1, 50);					/// неудобный метод класса ifstream, ограничивает количество символов, и str1 должен быть массивом
+			
+			
+			cout << str1<<endl;						/// считывает файл до конца, при этом если есть в конце перенос строки - 
+													/// отработает еще раз с последним данными
+
+			
 		}
 	}
-
-	fout.close();				/// закрываем файл
-
+	
+	fin.close();
 	return 0;
 
 }
