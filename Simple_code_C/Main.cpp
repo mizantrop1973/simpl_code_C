@@ -5,10 +5,11 @@
 #include<locale.h>							/// язык
 #include<fstream>							/// поток в файлы
 #include<string>
+#include<Windows.h>							/// для изменения кодировки консоли
 using namespace std;
 
 
-											///Чтение и запись объекта класса из файла/в файл
+											///Чтение и запись при помощи класса fstream
 
 class Point
 {
@@ -26,25 +27,7 @@ public:
 		this->z = z;
 	}
 
-	int GetX()
-	{
-		return x;
-	}
-
-	void SetX(int valueX)
-	{
-		x = valueX;
-	}
-
-	int GetY()
-	{
-		return y;
-	}
-
-	void SetY(int y)
-	{
-		this->y = y;
-	}
+	
 
 	void Print()
 	{
@@ -63,106 +46,63 @@ int  main()
 {
 	setlocale(LC_ALL, "ru");
 	string path = "myFile.txt";
-	//cin >> path;
-	//ofstream fout;
-	//fout.open("myFile.txt");   /// в таком виде файл создается в папке с проектом, или полный адрес иначе
-	///*fout.open(path);			///    затирает все прежнее
 
-	//if (!fout.is_open())		/// fout.is_open()  возвращает   bool , 
-	//{
-	//	cout << "Error of file's opening" << endl;
-	//}
-	//else 
-	//{
-	//	fout << "These are our datas" << endl;
-	//}
+	fstream fs;
+	fs.open(path, fstream::in | fstream::out | fstream::app);              ///   "|" - битовое  "или"
 
-	//fout.close();				/// закрываем файл*/
-
-	//fout.open(path, ofstream::app);           /// добавляем, не затираем
-
-	//if (!fout.is_open())		/// fout.is_open()  возвращает   bool , 
-	//{
-	//	cout << "Error of file's opening" << endl;
-	//}
-	//else
-	//{
-	//	for (size_t i = 0; i < 7; ++i)
-	//	{
-	//		cout << "Enter a number:" << endl;
-	//		int a;
-	//		cin >> a;
-	//		//fout << endl<< "NEW datas" << endl;
-	//		fout << a << endl;
-	//	}
-	//}
-
-	//fout.close();				/// закрываем файл
-
-	//ifstream fin;
-
-	//fin.open(path);
-	//if (!fin.is_open())		/// fout.is_open()  возвращает   bool , 
-	//{
-	//	cout << "Error of file's opening" << endl;
-	//}
-	//else
-	//{
-	//	cout << "File is open" << endl;
-	//	char str1[50]{};
-	//	char ch;
-	//	string str;
-	//	//while (fin.get(ch))						/// посимвольно считываем, в т.ч. переносы строк (неявные)
-	//	while(!fin.eof())							/// eof считывает строки  ДО окончания файла
-	//	{
-	//		//cout << ch;
-	//		str = "";								/// исправит ошибку двойного вывода последней строки
-	//		//fin >> str;								/// ВНИМАНИЕ. Метод считывая строку ДО ПЕРВОГО ПРОБЕЛА! 
-	//		getline(fin, str/*,";"*/);				/// считывает строку ДО "сепаратора" - третий, необязательный аргумент, по умолчанию -  \n
-	//		//fin.getline(str1, 50);				/// неудобный метод класса ifstream, ограничивает количество символов, и str1 должен быть массивом
-	//		
-	//		
-	//		cout << str << endl;					/// считывает файл до конца, при этом если есть в конце перенос строки - 
-	//												/// отработает еще раз с последним данными
-	//	}
-	//}
-	//
-	//fin.close();
-
-	/*Point point(0, 0, 0);
-	point.Print();
-
-	ofstream fout;
-	fout.open(path, ofstream::app);
-	
-	if (!fout.is_open())		/// fout.is_open()  возвращает   bool , 
-	{
-		cout << "\t Error of file's opening" << endl;
-	}
-	else
-	{
-		cout << "\t File is open" << endl;
-		fout.write((char*)&point, sizeof(Point));
-	}
-
-	fout.close();				/// закрываем файл*/
-
-	ifstream fin;
-	fin.open(path);
-	if (!fin.is_open())		/// fout.is_open()  возвращает   bool , 
+	if (!fs.is_open())		/// fout.is_open()  возвращает   bool , 
 	{
 		cout << "Error of file's opening" << endl;
 	}
 	else
 	{
 		cout << "File is open" << endl;
-		Point point1;
-		while (fin.read((char*)&point1, sizeof(Point)))       /// считывает один объект
+		string msg;
+		char value;
+		while (true)
 		{
-			point1.Print();
+			
+			cout << "Choose the action: " << endl <<
+				"to write  enter \"W\"" << endl <<
+				"to read enter \"R\"" << endl;
+			cin >> value;
+				
+			if (value == 'w' || value =='W')
+			{
+				msg = "";
+				cout << "Enter a message: " << endl;
+				SetConsoleCP(1251);							/// меняем кодировку консоли (для возможности использовать кириллицу)
+				//cin >> msg;
+				//fs << msg << endl;
+				cin.get();									/// !!!!!ВНИМАНИЕ. ЗАМУЧИЛСЯ. ЧТОБЫ ИСПОЛЬЗОВАТЬ СЛЕДУЮЩУЮ СТРОКУ, ЭТА СТРОКА ОБЯЗАТЕЛЬНО
+				getline(cin, msg, '\n');
+				fs << msg << endl;
+				SetConsoleCP(866);							/// возвращаем кодировку консоли  !!!!!!!!!!
+				break;
+			}
+			else if (value == 'r' || value == 'R')
+			{
+				cout << "Reading of the datas, source:  " + path << endl << endl << endl;
+				while (!fs.eof())
+				{
+					msg = "";
+					getline(fs, msg);
+					cout << msg <<endl;
+				}
+				break;
+			}
+			else
+			{
+				cout << "Incorrect choice, try again" << endl<<endl<<endl;
+			}
+			
 		}
 	}
-	fin.close();
+	fs.close();				/// закрываем файл
+
+
+
+										
 
 
 	return 0;
