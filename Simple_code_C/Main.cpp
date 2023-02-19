@@ -163,32 +163,29 @@ private:
 
 ostream& operator<<(ostream& os, const String& string)
 {
-	os << string.str << endl;
+	os << string.str;
 	return os;
 }
 
  /// ÏÅÐÅÃÐÓÇÊÀ ÂÂÎÄÀ
 
-istream& operator>>(istream& is, String & string)
+istream& operator>>(istream& is, String &  string)
 {
-	
-	int max;
-	cout << "Point the max of simbol's quantity" << endl;
-	cin >> max;
-	
 	if (string.str != nullptr)
 		delete[] string.str;
 	char c;
-	String temp(cin.get());
-	
-	for (int i = 0; cin.get(temp.str[i]); ++i)
+	const int MAX = 10000;
+	int length=0;
+	char* str = new char[MAX]{};
+	for (int i = 0; is.get(c) &&  i < MAX && c != '\n'; ++i)
 	{
-		temp.length= i + 1;
-		string.str[i] = temp.str[i];
-	
-	 
-	
-	
+		str[i] = c;
+		length += 1;
+	}
+	str[length] = '\0';
+	string.str = new char[length + 1];
+	string.str = str;
+	string.length = length;
 
 	return is;
 }
@@ -199,35 +196,14 @@ int main()
 	setlocale(LC_ALL, "ru");
 
 	string path = "MyFile.txt";
-	String a;
 
 	String b = ", World!";
 
-	bool equal = (a == b);
-	cout << equal << endl;
-
-	bool noequal = (a != b);
-	cout << noequal << endl;
-
-	cout << (a != b) << endl;
-
-	String result;
-	result = a + b;
-
-
-
-	//a.Print();
+	
 	b.Print();
-	result.Print();
-
-	/*cout << a[0] << endl;
-	a[3] ='z';
-	a.Print();*/
-
-
 
 	
-	/*fstream fs;
+	fstream fs;
 	fs.open(path, fstream::in | fstream::out | fstream::app);              ///   "|" - áèòîâîå  "èëè"
 
 	if (!fs.is_open())		/// fout.is_open()  âîçâðàùàåò   bool , 
@@ -237,15 +213,22 @@ int main()
 	else
 	{
 		cout << "File is open" << endl;
-		fs << a << "\n";
-		
 	}
-	fs.close();*/
-
-	cin>>b;
 	
-	//cout << a;
+	while (true)
+	{
+		String c;
+		fs >> c;
+		if (fs.eof())
+			break;
+		cout << c << endl;
+	}
+	
+	fs.close();
+
+	cin >> b;
+	cout << b;
+	
+
 	return 0;
-
-
 }
