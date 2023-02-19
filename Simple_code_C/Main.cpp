@@ -9,7 +9,7 @@
 using namespace std;
 
 
-											///Чтение и запись при помощи класса fstream
+											///ПОТОКОВЫЙ ВВОД/ВЫВОД
 
 class Point
 {
@@ -27,7 +27,8 @@ public:
 		this->z = z;
 	}
 
-	
+	friend ostream& operator<<(ostream& os, const Point& point);                      /// метод вывода  объявить в классе как  friend   !!!!!
+	friend istream& operator>>(istream& is, Point& point);
 
 	void Print()
 	{
@@ -35,10 +36,23 @@ public:
 	}
 
 private:
+
 	int x;
 	int y;
 	int z;
 };
+
+ostream& operator<<(ostream& os, const Point& point)       /// классы ifstream, ofsream, fstream, cout , cin связаны цепочкой наследования!!!!!!
+{
+	os << point.x << "\t" << point.y << "\t" << point.z;
+	return os;
+}
+
+istream& operator>>(istream& is, Point& point)       /// классы ifstream, ofsream, fstream, cout , cin связаны цепочкой наследования!!!!!!
+{
+	is >> point.x >> point.y >> point.z;
+	return is;
+}
 
 
 int  main()
@@ -46,6 +60,10 @@ int  main()
 {
 	setlocale(LC_ALL, "ru");
 	string path = "myFile.txt";
+
+	//Point p(40, 100, 1);
+
+	//cout << p;
 
 	fstream fs;
 	fs.open(path, fstream::in | fstream::out | fstream::app);              ///   "|" - битовое  "или"
@@ -57,52 +75,24 @@ int  main()
 	else
 	{
 		cout << "File is open" << endl;
-		string msg;
-		char value;
-		while (true)
-		{
-			
-			cout << "Choose the action: " << endl <<
-				"to write  enter \"W\"" << endl <<
-				"to read enter \"R\"" << endl;
-			cin >> value;
-				
-			if (value == 'w' || value =='W')
-			{
-				msg = "";
-				cout << "Enter a message: " << endl;
-				SetConsoleCP(1251);							/// меняем кодировку консоли (для возможности использовать кириллицу)
-				//cin >> msg;
-				//fs << msg << endl;
-				cin.get();									/// !!!!!ВНИМАНИЕ. ЗАМУЧИЛСЯ. ЧТОБЫ ИСПОЛЬЗОВАТЬ СЛЕДУЮЩУЮ СТРОКУ, ЭТА СТРОКА ОБЯЗАТЕЛЬНО
-				getline(cin, msg, '\n');
-				fs << msg << endl;
-				SetConsoleCP(866);							/// возвращаем кодировку консоли  !!!!!!!!!!
-				break;
-			}
-			else if (value == 'r' || value == 'R')
-			{
-				cout << "Reading of the datas, source:  " + path << endl << endl << endl;
-				while (!fs.eof())
-				{
-					msg = "";
-					getline(fs, msg);
-					cout << msg <<endl;
-				}
-				break;
-			}
-			else
-			{
-				cout << "Incorrect choice, try again" << endl<<endl<<endl;
-			}
-			
-		}
+		//fs << p << "\n";
 	}
-	fs.close();				/// закрываем файл
 
 
+	Point p;
+	//cin >> p;
 
-										
+	while (!fs.eof())
+	{
+		fs >> p;
+		if (fs.eof())
+			break;
+
+		cout << p <<endl;
+		
+	}
+
+	fs.close();				/// закрываем файл							
 
 
 	return 0;
