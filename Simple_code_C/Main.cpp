@@ -9,33 +9,57 @@
 using namespace std;
 
 
-											///Чтение и запись при помощи класса fstream
+															/// ОБРАБОТКА ИСКЛЮЧЕНИЙ
+															/// ключевое слово throw
+
+void Foo(int value)
+{
+	if (value < 0)
+		//throw value;
+		//throw "Число меньше 0 !!!";
+		throw exception("Число меньше 0 !!!");
 
 
+	cout << "Value = " << value << endl;
+}
 
 int  main()
 
 {
 	setlocale(LC_ALL, "ru");
-	string path = "myFile.xt";								/// неправильно пишем имя файла специально
+	/*string path = "myFile.xt";								/// неправильно пишем имя файла специально
 	ifstream fin;
 	fin.exceptions(ifstream::badbit | ifstream::failbit);    /// логика может некорректно работать у fstream, ifstream и пр., поэтому мы добавляем такую запись
 
 	try
 	{
 		cout << "Trying to open file" << endl;
-		
+
 		fin.open(path);
 
 		cout << "File is opend successfully" << endl;
 	}
-	catch (const /*std::exception*/ ifstream::failure& ex)      /// заменили на более инфоративный класс
-	{
+	catch (const /*std::exception*/ /*ifstream::failure& ex)*/      /// заменили на более инфоративный класс
+	/*{
 		cout << ex.what() << endl;
-		cout << ex.code() << endl;
+		cout << ex.code() << endl;								/// дает код ошибки
 		cout << "Ошибка открытия файла" << endl;
-	}
+	}*/
 
+	
+
+	try
+	{
+		Foo(-55);
+	}
+	//catch (const int ex)
+	//catch (const char* ex)
+	catch (const exception& ex)
+	{
+		//cout << "We catched " << ex << endl;
+		cout << "We catched " << ex.what() << endl;
+	}
+	
 
 
 
@@ -94,7 +118,7 @@ int  main()
 
 
 
-										
+
 
 
 	return 0;
