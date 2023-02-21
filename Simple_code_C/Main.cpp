@@ -9,15 +9,20 @@
 using namespace std;
 
 
-															/// ОБРАБОТКА ИСКЛЮЧЕНИЙ
-															/// ключевое слово throw
+															/// НЕСКОЛЬКО БЛОКОВ CATCH
+															
 
 void Foo(int value)
 {
 	if (value < 0)
 		//throw value;
-		//throw "Число меньше 0 !!!";
-		throw exception("Число меньше 0 !!!");
+		throw "Число меньше 0 !!!";
+
+	if(value ==0)
+		throw exception("Число равно 0 !!!");
+
+	if (value == 1)
+		throw 1;
 
 
 	cout << "Value = " << value << endl;
@@ -50,7 +55,7 @@ int  main()
 
 	try
 	{
-		Foo(-55);
+		Foo(1);
 	}
 	//catch (const int ex)
 	//catch (const char* ex)
@@ -60,9 +65,19 @@ int  main()
 		cout << "We catched " << ex.what() << endl;
 	}
 	
-
-
-
+	//catch (const int ex)
+	catch (const char* ex)
+	//catch (const exception& ex)
+	{
+		cout << "We catched " << ex << endl;
+		//cout << "We catched " << ex.what() << endl;
+	}
+	catch (...)
+		//catch (const exception& ex)
+	{
+		cout << "Unknowen mistake " << endl;
+		//cout << "We catched " << ex.what() << endl;
+	}
 
 	//fs.open(path, fstream::in | fstream::out | fstream::app);              ///   "|" - битовое  "или"
 
