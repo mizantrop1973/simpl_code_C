@@ -9,153 +9,85 @@
 using namespace std;
 
 
-															/// —ќЅ—“¬≈ЌЌџ…  Ћј—— exception
-class MyException:public exception
+															/// ѕ≈–≈„»—Ћя≈ћџ… “»ѕ enumcla
+//enum PCState                                      /// можно отдельно, можно в самом классе
+//{
+//	OFF,
+//	ON,
+//	SLEEP
+//};
+
+
+class PC
 {
 public:
-	MyException(const char* msg, int dataState);
-	~MyException();
-
-	int GetDataState() 
-	{ 
-		return dataState; 
-	}
+	PC();
+	~PC();
+	enum PCState
+	{
+		OFF,
+		ON,
+		SLEEP
+	};
+	PCState GetState() { return State; }
+	
+	void SetState(PCState State){this->State = State;}
 
 	
+
+
 private:
-	int dataState;
+PCState State;
 
 };
 
-MyException::MyException(const char* msg, int dataState):exception(msg)
-{
-	this->dataState = dataState;
-}
-
-MyException::~MyException()
+PC::PC()
 {
 }
 
-void Foo(int value)
+PC::~PC()
 {
-	if (value < 0)
-		throw exception("„исло меньше 0 !!!");
-
-
-	if (value == 1)
-		throw MyException("„исло равно 1", value );
-	
-
-	cout << "Value = " << value << endl;
 }
+
+enum Speed
+{
+	MIN=150,
+	RECOMEND=600,
+	MAX=800,
+};
+
 
 int  main()
 
 {
 	setlocale(LC_ALL, "ru");
-	/*string path = "myFile.xt";								/// неправильно пишем им€ файла специально
-	ifstream fin;
-	fin.exceptions(ifstream::badbit | ifstream::failbit);    /// логика может некорректно работать у fstream, ifstream и пр., поэтому мы добавл€ем такую запись
+	
+	//PC pc;
 
-	try
-	{
-		cout << "Trying to open file" << endl;
+	//pc.SetState(PC::PCState::SLEEP);
 
-		fin.open(path);
+	///*if (pc.GetState() == PCState::ON)
+	//{
+	//	cout << "PC is working" << endl;
 
-		cout << "File is opend successfully" << endl;
-	}
-	catch (const /*std::exception*/ /*ifstream::failure& ex)*/      /// заменили на более инфоративный класс
-	/*{
-		cout << ex.what() << endl;
-		cout << ex.code() << endl;								/// дает код ошибки
-		cout << "ќшибка открыти€ файла" << endl;
-	}*/
+	//}*/
 
+	//switch (pc.GetState())
+	//{
+	//case PC::PCState::OFF:
+	//	cout << "PC is turned off" << endl;
+	//	break;
+	//case PC::PCState::ON:
+	//	cout << "PC is working" << endl;
+	//	break;
+	//case PC::PCState::SLEEP:
+	//	cout << "PC is sleeping"<< endl;
+	//	break;
+	//}
 	
 
-	try
-	{
-		Foo(1);
-	}
-	//catch (const int ex)
-	//catch (const char* ex)
-	catch (MyException& ex)
-	{
-		//cout << "We catched " << ex << endl;
-		
-		cout << "We catched "  << ex.what()<<endl;
-		cout << "Data state is :" << ex.GetDataState() << endl;
-
-	}
-
-	catch (exception& ex)
-	{
-		//cout << "We catched " << ex << endl;
-
-		cout << "We catched " << ex.what() << endl;
-		
-
-	}
-	
-
-	//fs.open(path, fstream::in | fstream::out | fstream::app);              ///   "|" - битовое  "или"
-
-	//if (!fs.is_open())		/// fout.is_open()  возвращает   bool , 
-	//{
-	//	cout << "Error of file's opening" << endl;
-	//}
-	//else
-	//{
-	//	cout << "File is open" << endl;
-	//	string msg;
-	//	char value;
-	//	while (true)
-	//	{
-	//		
-	//		cout << "Choose the action: " << endl <<
-	//			"to write  enter \"W\"" << endl <<
-	//			"to read enter \"R\"" << endl;
-	//		cin >> value;
-	//			
-	//		if (value == 'w' || value =='W')
-	//		{
-	//			msg = "";
-	//			cout << "Enter a message: " << endl;
-	//			SetConsoleCP(1251);							/// мен€ем кодировку консоли (дл€ возможности использовать кириллицу)
-	//			//cin >> msg;
-	//			//fs << msg << endl;
-	//			cin.get();									/// !!!!!¬Ќ»ћјЌ»≈. «јћ”„»Ћ—я. „“ќЅџ »—ѕќЋ№«ќ¬ј“№ —Ћ≈ƒ”ёў”ё —“–ќ ”, Ё“ј —“–ќ ј ќЅя«ј“≈Ћ№Ќќ
-	//			getline(cin, msg, '\n');
-	//			fs << msg << endl;
-	//			SetConsoleCP(866);							/// возвращаем кодировку консоли  !!!!!!!!!!
-	//			break;
-	//		}
-	//		else if (value == 'r' || value == 'R')
-	//		{
-	//			cout << "Reading of the datas, source:  " + path << endl << endl << endl;
-	//			while (!fs.eof())
-	//			{
-	//				msg = "";
-	//				getline(fs, msg);
-	//				cout << msg <<endl;
-	//			}
-	//			break;
-	//		}
-	//		else
-	//		{
-	//			cout << "Incorrect choice, try again" << endl<<endl<<endl;
-	//		}
-	//		
-	//	}
-	//}
-	//fs.close();				/// закрываем файл
-
-
-
-
-
+	Speed sp = Speed::MAX;
+	cout << sp << endl;
 
 	return 0;
-
 }
