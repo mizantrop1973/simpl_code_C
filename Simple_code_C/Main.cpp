@@ -9,21 +9,42 @@
 using namespace std;
 
 
-															/// ÍÅÑÊÎËÜÊÎ ÁËÎÊÎÂ CATCH
-															
+															/// ÑÎÁÑÒÂÅÍÍÛÉ ÊËÀÑÑ exception
+class MyException:public exception
+{
+public:
+	MyException(const char* msg, int dataState);
+	~MyException();
+
+	int GetDataState() 
+	{ 
+		return dataState; 
+	}
+
+	
+private:
+	int dataState;
+
+};
+
+MyException::MyException(const char* msg, int dataState):exception(msg)
+{
+	this->dataState = dataState;
+}
+
+MyException::~MyException()
+{
+}
 
 void Foo(int value)
 {
 	if (value < 0)
-		//throw value;
-		throw "×èñëî ìåíüøå 0 !!!";
+		throw exception("×èñëî ìåíüøå 0 !!!");
 
-	if(value ==0)
-		throw exception("×èñëî ðàâíî 0 !!!");
 
 	if (value == 1)
-		throw 1;
-
+		throw MyException("×èñëî ðàâíî 1", value );
+	
 
 	cout << "Value = " << value << endl;
 }
@@ -59,25 +80,24 @@ int  main()
 	}
 	//catch (const int ex)
 	//catch (const char* ex)
-	catch (const exception& ex)
+	catch (MyException& ex)
 	{
 		//cout << "We catched " << ex << endl;
+		
+		cout << "We catched "  << ex.what()<<endl;
+		cout << "Data state is :" << ex.GetDataState() << endl;
+
+	}
+
+	catch (exception& ex)
+	{
+		//cout << "We catched " << ex << endl;
+
 		cout << "We catched " << ex.what() << endl;
+		
+
 	}
 	
-	//catch (const int ex)
-	catch (const char* ex)
-	//catch (const exception& ex)
-	{
-		cout << "We catched " << ex << endl;
-		//cout << "We catched " << ex.what() << endl;
-	}
-	catch (...)
-		//catch (const exception& ex)
-	{
-		cout << "Unknowen mistake " << endl;
-		//cout << "We catched " << ex.what() << endl;
-	}
 
 	//fs.open(path, fstream::in | fstream::out | fstream::app);              ///   "|" - áèòîâîå  "èëè"
 
