@@ -11,35 +11,71 @@ using namespace std;
 
 															/// œ–ŒÃ“–¿Õ—“¬Œ »Ã≈Õ —++
 								                         
-namespace NS1
+
+class Point
 {
-	void Foo()
-	{
-		cout << "ST1" << endl;
-	}
+public:
+	Point();
+	Point(int x, int y, int z);
+	~Point();
+
+private:
+
+	int x;
+	int y;
+	int z;
+};
+
+
+Point::Point()
+{
+	 x = y = z = 0;
 }
 
-namespace NS2
+Point::Point(int x, int y, int z)
 {
-	void Foo()
-	{
-		cout << "ST2" << endl;
-	}
+	this->x = x;
+	this->y = y;
+	this->z = z;
 }
 
-namespace NS3
+Point::~Point()
 {
-	namespace NS2
-	{
-		void Foo()
-		{
-			cout << "ST23" << endl;
-		}
-	}
 }
 
 
+template<typename T1, typename T2>
+class MyClass
+{
+public:
+	MyClass(T1 value1, T2 value2)
+	{
+		this->value1 = value1;
+		this->value2 = value2;
+	}
 
+
+	void DataTypeSize()
+	{
+		cout << sizeof(value1) << endl;
+		cout << sizeof(value2) << endl;
+	}
+
+
+private:
+	T1 value1;
+	T2 value2;
+
+};
+
+//MyClass::MyClass(T value)
+//{
+//	this->value = value;
+//}
+
+//MyClass::~MyClass()
+//{
+//}
 
 
 int  main()
@@ -47,14 +83,12 @@ int  main()
 {
 	setlocale(LC_ALL, "ru");
 
-	NS1::Foo();
+	int a = 2;
 
-	NS2::Foo();
+	Point p;
 
-	NS3::NS2::Foo();
-	
-	std::cout << "test" << endl;
-	cout << "test" << endl;
-	
+	MyClass<int, Point> c(a, p);
+	c.DataTypeSize();
+
 	return 0;
 }
