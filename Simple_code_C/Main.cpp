@@ -9,85 +9,52 @@
 using namespace std;
 
 
-															/// ÏÅÐÅ×ÈÑËßÅÌÛÉ ÒÈÏ enumcla
-//enum PCState                                      /// ìîæíî îòäåëüíî, ìîæíî â ñàìîì êëàññå
-//{
-//	OFF,
-//	ON,
-//	SLEEP
-//};
-
-
-class PC
+															/// ÏÐÎÌÒÐÀÍÑÒÂÎ ÈÌÅÍ Ñ++
+								                         
+namespace NS1
 {
-public:
-	PC();
-	~PC();
-	enum PCState
+	void Foo()
 	{
-		OFF,
-		ON,
-		SLEEP
-	};
-	PCState GetState() { return State; }
-	
-	void SetState(PCState State){this->State = State;}
-
-	
-
-
-private:
-PCState State;
-
-};
-
-PC::PC()
-{
+		cout << "ST1" << endl;
+	}
 }
 
-PC::~PC()
+namespace NS2
 {
+	void Foo()
+	{
+		cout << "ST2" << endl;
+	}
 }
 
-enum Speed
+namespace NS3
 {
-	MIN=150,
-	RECOMEND=600,
-	MAX=800,
-};
+	namespace NS2
+	{
+		void Foo()
+		{
+			cout << "ST23" << endl;
+		}
+	}
+}
+
+
+
 
 
 int  main()
 
 {
 	setlocale(LC_ALL, "ru");
+
+	NS1::Foo();
+
+	NS2::Foo();
+
+	NS3::NS2::Foo();
 	
-	//PC pc;
-
-	//pc.SetState(PC::PCState::SLEEP);
-
-	///*if (pc.GetState() == PCState::ON)
-	//{
-	//	cout << "PC is working" << endl;
-
-	//}*/
-
-	//switch (pc.GetState())
-	//{
-	//case PC::PCState::OFF:
-	//	cout << "PC is turned off" << endl;
-	//	break;
-	//case PC::PCState::ON:
-	//	cout << "PC is working" << endl;
-	//	break;
-	//case PC::PCState::SLEEP:
-	//	cout << "PC is sleeping"<< endl;
-	//	break;
-	//}
+	std::cout << "test" << endl;
+	cout << "test" << endl;
 	
-
-	Speed sp = Speed::MAX;
-	cout << sp << endl;
-
 	return 0;
 }
