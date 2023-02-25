@@ -49,9 +49,9 @@ int  main()
 {
 	setlocale(LC_ALL, "ru");
 
-	int* ptr = new int(5);
+	/*int* ptr = new int(5);
 	cout << *ptr << endl;
-	delete ptr;
+	delete ptr;*/
 
 	SmartPointer<int> pointer = new int(10);
 	*pointer = 154857;
@@ -80,11 +80,19 @@ int  main()
 	up1.reset();									/// затирает указатель и  данные
 
 
-	shared_ptr<int>sp1(new int(10));
-	shared_ptr<int> sp2(sp1);
+	shared_ptr<int>sp1(new int(10));				/// общие указатели, данные уничтожаются только тогда когда уничтожается последнгий указатель
+	shared_ptr<int> sp2(sp1);						/// реализуется при помощи переменной static
 
+	/// МАССИВЫ
+	int SIZE ;
+	cin >> SIZE;
+	shared_ptr<int[]>ptr(new int[SIZE] {1, 23, 4, 56, 7});
 
-
-
+	for (int i = 0; i < SIZE; ++i)
+	{
+		ptr[i] = rand() % 100;
+		cout << ptr[i] << endl;
+	}
+	
 	return 0;
  }
