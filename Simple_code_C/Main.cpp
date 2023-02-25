@@ -6,10 +6,12 @@
 #include<fstream>							/// поток в файлы
 #include<string>
 #include<Windows.h>							/// для изменения кодировки консоли
+#include<memory>							/// умные указатели
 using namespace std;
 
 
 															/// Умные_указатели_Smart_pointers
+															/// auto_ptr, unique_ptr, shared_ptr
 template<class T>															
 class SmartPointer
 {
@@ -55,5 +57,34 @@ int  main()
 	*pointer = 154857;
 	cout << *pointer << endl;
 
+	//SmartPointer<int> sp = pointer;                 /// ПРОБЛЕММА
+
+	auto_ptr<int>ap1(new int(10));
+	auto_ptr<int> ap2(ap1);							/// Первый указатель затирается
+
+	
+	
+	
+	unique_ptr<int>up1(new int(10));
+	//unique_ptr<int> up2(up1);						/// запрет 
+	unique_ptr<int> up2 = move(up1);				/// перенос
+
+	/// ИЛИ
+
+	up2.swap(up1);									/// обмен
+
+	int* p = up1.get();								/// возврат сырого указателя
+
+	up1.release();									/// затирает указатель, но данные оставляет
+	
+	up1.reset();									/// затирает указатель и  данные
+
+
+	shared_ptr<int>sp1(new int(10));
+	shared_ptr<int> sp2(sp1);
+
+
+
+
 	return 0;
-}
+ }
