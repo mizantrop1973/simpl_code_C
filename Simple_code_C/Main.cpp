@@ -44,15 +44,12 @@ Point::~Point()
 }
 
 
-template<typename T1, typename T2>
+template<typename/*или class*/ T1, typename T2>
 class MyClass
 {
 public:
-	MyClass(T1 value1, T2 value2)
-	{
-		this->value1 = value1;
-		this->value2 = value2;
-	}
+	MyClass(T1 value1, T2 value2);
+	~MyClass();
 
 
 	void DataTypeSize()
@@ -62,20 +59,55 @@ public:
 	}
 
 
-private:
+protected:
 	T1 value1;
 	T2 value2;
 
+	private:
+
+};
+template <typename T1, typename T2>
+MyClass<T1, T2>::MyClass(T1 value1, T2 value2)
+{
+	this->value1 = value1;
+	this->value2 = value2;
+}
+template <typename T1, typename T2>
+MyClass<T1, T2>::~MyClass()
+{
+}
+
+
+template <typename T1, typename T2>
+class TypeInfo : public MyClass<T1, T2>
+{
+public:
+	TypeInfo(T1 value1, T2 value2) ;
+	~TypeInfo();
+
+	void ShowTypeName()
+	{
+		cout << "Typename T1 is " << typeid(this->value1).name() << endl;
+		cout << "Typename T2 is " << typeid(this->value2).name() << endl;
+		
+	}
+
+private:
+
 };
 
-//MyClass::MyClass(T value)
-//{
-//	this->value = value;
-//}
+template <typename T1, typename T2>
+TypeInfo<T1, T2>::TypeInfo(T1 value1, T2 value2):MyClass<T1, T2> (value1, value2)
+{
 
-//MyClass::~MyClass()
-//{
-//}
+}
+
+template <typename T1, typename T2>
+TypeInfo<T1, T2>::~TypeInfo()
+{
+}
+
+
 
 
 int  main()
@@ -83,12 +115,19 @@ int  main()
 {
 	setlocale(LC_ALL, "ru");
 
-	int a = 2;
+	double a = 2.2541;
 
-	Point p;
+	Point b;
 
-	MyClass<int, Point> c(a, p);
+	MyClass<double, Point> c(a, b);
+
+	TypeInfo<double, Point> d(a,b);
+	
+
 	c.DataTypeSize();
+	d.DataTypeSize();
+	d.ShowTypeName();
+	
 
 	return 0;
 }
