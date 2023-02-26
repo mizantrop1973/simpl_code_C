@@ -24,19 +24,19 @@ public:
 	int GetSize() { return Size; }
 	T& operator[](const int index);
 
-	template<typename T>
+	template<typename T1=T>
 	class Node
 	{
 	public:
-		Node(T data=T(), Node* pNext = nullptr)/// фактически параметры по умолчанию при объявлении, чтобы не было мусора, и для последнего члена списка
+		Node(T1 data = T1(), Node* pNext = nullptr);/*/// фактически параметры по умолчанию при объявлении, чтобы не было мусора, и для последнего члена списка
 		{
 			this->data = data;
 			this->pNext = pNext;
-		}  
+		}  */
 		~Node(){}
 
 		Node* pNext;
-		T data;
+		T1 data;
 
 		
 	private:
@@ -135,3 +135,11 @@ int  main()
 		cout << lst[i] << endl;
 	return 0;
  }
+
+template<typename T>
+template<typename T1>
+List<T>:: Node<T1>::Node(T1 data, Node* pNext)
+{
+	this->data = data;
+	this->pNext = pNext;
+}
