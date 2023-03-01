@@ -23,7 +23,7 @@ public:
 	void push_back(T data);
 	int GetSize() { return Size; }
 	T& operator[](const int index);
-
+private:
 	template<typename T1=T>
 	class Node
 	{
@@ -33,16 +33,16 @@ public:
 			this->data = data;
 			this->pNext = pNext;
 		}  */
-		~Node(){}
+		~Node();
 
 		Node* pNext;
 		T1 data;
 
 		
-	private:
+	
 		
 	};
-private:
+
 	int Size;
 	Node<T>* head;
 };
@@ -95,20 +95,6 @@ T& List<T>::operator[](const int index)
 
 
 
-//template<typename T>
-//List<T>::Node<T>::Node
-//{
-//	this->data = data;
-//	this->pNext = pNext;
-//}
-//
-//template<typename T>
-//List<T>::Node<T>::~Node()
-//{
-//}
-
-
-
 int  main()
 
 {
@@ -138,8 +124,14 @@ int  main()
 
 template<typename T>
 template<typename T1>
-List<T>:: Node<T1>::Node(T1 data, Node* pNext)
+List<T>:: Node<T1>::Node(T1 data, Node* pNext) : data(data), pNext(pNext)
 {
-	this->data = data;
-	this->pNext = pNext;
+	/*this->data = data;
+	this->pNext = pNext;*/
+}
+
+template<typename T>
+template<typename T1>
+List<T>::Node<T1>::~Node()
+{
 }
