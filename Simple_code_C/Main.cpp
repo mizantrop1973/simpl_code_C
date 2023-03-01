@@ -21,8 +21,16 @@ public:
 	~List();
 
 	void push_back(T data);
-	int GetSize() { return Size; }
+	void pop_front();
+	void push_front(T data);
+	void pop_back();void clear();
+	void insert(T value, int index);
+	void remoweAt(int index);
+	int GetSize() {return Size;}
 	T& operator[](const int index);
+	
+	
+
 private:
 	template<typename T1=T>
 	class Node
@@ -58,6 +66,7 @@ List<T>::List()
 template<typename T>
 List<T>::~List()
 {
+	clear();
 }
 
 template<typename T>
@@ -78,6 +87,97 @@ void List<T>::push_back(T data)
 }
 
 template<typename T>
+void List<T>::pop_front()
+{
+	Node<T>* temp = head;
+	head = head->pNext;
+	delete temp;
+	--Size;
+}
+
+template<typename T>
+void List<T>::clear()
+{
+	while (Size)
+		pop_front();
+}
+
+template<typename T>
+void List<T>::insert(T value, int index)
+{
+	if (head == nullptr || index < 0)
+	{
+		this->push_front(value);
+	}
+	else if (index > this->Size)
+	{
+		this->push_back(value);
+	}
+	else
+	{
+		Node<T>* current = this->head;
+		Node<T>* insert = new Node<T>(value);
+		Node<T>* temp = nullptr;
+		int counter = 0;
+		while (counter<=index)
+		{
+			if (counter == index - 1)
+			{
+				temp = current->pNext;
+				current->pNext = insert;
+				insert->pNext = temp;
+			}		
+			current = current->pNext;
+			++counter;
+		}
+		++Size;
+	}
+}
+
+template<typename T>
+void List<T>::remoweAt(int index)
+{
+	if (head == nullptr || index < 0)
+	{
+		cout << "List  contain no members" << endl;
+	}
+	else if ( index < 0)
+	{
+		this->pop_front();
+	}
+	else if (index > this->Size)
+	{
+		this->pop_back();
+	}
+	else
+	{
+		Node<T>* current = this->head;
+		Node<T>* temp = nullptr;
+		int counter = 0;
+		while (counter <= index)
+		{
+			if (counter == index - 1)
+			{
+				temp = current;
+			}			
+			
+			
+			if (counter == index)
+			{
+				temp->pNext = current->pNext;				
+			}
+			current = current->pNext;
+			++counter;
+		}
+		
+		--Size;
+	}
+	
+
+}
+
+
+template<typename T>
 T& List<T>::operator[](const int index)
 {
 	int counter = 0;
@@ -89,7 +189,41 @@ T& List<T>::operator[](const int index)
 		else
 			current = current->pNext;
 		++counter;
+	}
+}
 
+template<typename T>
+void List<T>::push_front(T data)
+{
+	head = new Node<T>(data, head);
+	++Size;
+}
+
+template<typename T>
+void List<T>::pop_back()
+{
+	int counter = 0;
+	
+	Node<T>* current = this->head;
+	Node<T>* current1 = nullptr;
+	while (current != nullptr)
+	
+	{
+		
+		if (counter == Size - 2)
+		{
+			current1 = current;	
+		}
+
+		else if (counter == Size - 1)
+		{
+			delete current;
+			current1->pNext = nullptr;
+			--Size;
+			break;
+		}	
+		current = current->pNext;
+		++counter;
 	}
 }
 
@@ -103,6 +237,7 @@ int  main()
 
 	int numbersCount;
 	cin >> numbersCount;
+	cout << endl << endl;
 
 	for (int i = 0; i < numbersCount; ++i)
 	{
@@ -113,12 +248,27 @@ int  main()
 	/*lst.push_back(5);
 	lst.push_back(10);
 	lst.push_back(22);*/
-	cout<<lst.GetSize()<< endl;
+	/*cout<<lst.GetSize()<< endl;*/
 
-	cout << lst[0] << endl;
+	/*cout << lst[0] << endl;*/
 
 	for (int i = 0; i < lst.GetSize(); ++i)
 		cout << lst[i] << endl;
+
+	cout << "Ёлементов в списке " << lst.GetSize() << endl << endl << "выполн€ю метод pop_front" << endl << endl;
+	lst.pop_front();
+	lst.push_front(100);
+	lst.pop_back();
+	lst.insert(1050, -1);
+	lst.remoweAt(1);
+
+	for (int i = 0; i < lst.GetSize(); ++i)
+		cout << lst[i] << endl;
+
+	cout << "Ёлементов в списке " << lst.GetSize() << endl << endl;
+
+	//lst.clear();
+
 	return 0;
  }
 
