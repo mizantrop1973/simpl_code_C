@@ -115,21 +115,11 @@ void List<T>::insert(T value, int index)
 	}
 	else
 	{
-		Node<T>* current = this->head;
-		Node<T>* insert = new Node<T>(value);
-		Node<T>* temp = nullptr;
-		int counter = 0;
-		while (counter<=index)
-		{
-			if (counter == index - 1)
-			{
-				temp = current->pNext;
-				current->pNext = insert;
-				insert->pNext = temp;
-			}		
-			current = current->pNext;
-			++counter;
-		}
+		Node<T>* previos = head;
+		for (int i = 0; i < index - 1; ++i)
+			previos = previos->pNext;
+		Node<T>* newNode = new Node<T>(value, previos->pNext);
+		previos->pNext = newNode;
 		++Size;
 	}
 }
@@ -137,45 +127,25 @@ void List<T>::insert(T value, int index)
 template<typename T>
 void List<T>::remoweAt(int index)
 {
-	if (head == nullptr)
-	{
-		cout << "List  contain no members" << endl;
-	}
-	else if ( index <= 0)
+	if (index <= 0)
 	{
 		this->pop_front();
 	}
-	else if (index >= this->Size-1)
-	{
-		this->pop_back();
-	}
 	else
 	{
-		Node<T>* current = this->head;
-		Node<T>* temp = current;
-		int counter = 0;
-		while (counter <= index)
-		{
-			if (counter == index - 1)
-			{
-				temp = current;
-			}			
-			
-			
-			if (counter == index)
-			{
-				temp->pNext = current->pNext;
-				delete current;
-				break;
-			}
-			current = current->pNext;
-			++counter;
-		}
-		
+		if (index >= this->Size - 1)
+			index = Size - 1;
+
+		Node<T>* previos = head;
+
+		for (int i = 0; i < index - 1; ++i)
+			previos = previos->pNext;
+
+		Node<T>* toDelete = previos->pNext;
+		previos->pNext = toDelete->pNext;
+		delete toDelete;
 		--Size;
 	}
-	
-
 }
 
 
@@ -204,30 +174,7 @@ void List<T>::push_front(T data)
 template<typename T>
 void List<T>::pop_back()
 {
-	int counter = 0;
-	
-	Node<T>* current = this->head;
-	Node<T>* temp = current;
-	while (current != nullptr)
-	
-	{
-		
-		if (counter == Size - 2)
-		{
-			temp = current;	
-		}
-
-		else if (counter == Size - 1)
-		{
-			temp->pNext = nullptr;
-			delete current;
-			
-			--Size;
-			break;
-		}	
-		current = current->pNext;
-		++counter;
-	}
+	remoweAt(Size - 1);
 }
 
 
@@ -261,9 +208,9 @@ int  main()
 	cout << "Ёлементов в списке " << lst.GetSize() << endl << endl << "выполн€ю метод pop_front" << endl << endl;
 	//lst.pop_front();
 	//lst.push_front(100);
-	//lst.pop_back();
-	lst.insert(1050, 20);
-	//lst.remoweAt(9);
+	lst.pop_back();
+	//lst.insert(1050, 10);
+	//lst.remoweAt(5);
 
 	for (int i = 0; i < lst.GetSize(); ++i)
 		cout << lst[i] << endl;
