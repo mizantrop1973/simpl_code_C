@@ -7,231 +7,94 @@
 #include<string>
 #include<Windows.h>							/// дл€ изменени€ кодировки консоли
 #include<memory>							/// умные указатели
+#include<vector>
 using namespace std;
 
 
-															/// ќƒЌќ—¬я«Ќџ… —ѕ»—ќ 
-
-
-template<typename T>
-class List
-{
-public:
-	List();
-	~List();
-
-	void push_back(T data);
-	void pop_front();
-	void push_front(T data);
-	void pop_back();void clear();
-	void insert(T value, int index);
-	void remoweAt(int index);
-	int GetSize() {return Size;}
-	T& operator[](const int index);
-	
-	
-
-private:
-	template<typename T1=T>
-	class Node
-	{
-	public:
-		Node(T1 data = T1(), Node* pNext = nullptr);/*/// фактически параметры по умолчанию при объ€влении, чтобы не было мусора, и дл€ последнего члена списка
-		{
-			this->data = data;
-			this->pNext = pNext;
-		}  */
-		~Node();
-
-		Node* pNext;
-		T1 data;
-
-		
-	
-		
-	};
-
-	int Size;
-	Node<T>* head;
-};
-
-
-
-template<typename T>
-List<T>::List()
-{
-	Size = 0;
-	head = nullptr;
-}
-template<typename T>
-List<T>::~List()
-{
-	clear();
-}
-
-template<typename T>
-void List<T>::push_back(T data)
-{
-	if (head == nullptr)
-		head = new Node<T>(data);
-	else
-	{
-		Node<T>* current = this->head;
-		while (current->pNext != nullptr)
-		{
-			current = current->pNext;
-		}
-		current->pNext = new Node<T>(data);
-	}
-	++Size;
-}
-
-template<typename T>
-void List<T>::pop_front()
-{
-	Node<T>* temp = head;
-	head = head->pNext;
-	delete temp;
-	--Size;
-}
-
-template<typename T>
-void List<T>::clear()
-{
-	while (Size)
-		pop_front();
-}
-
-template<typename T>
-void List<T>::insert(T value, int index)
-{
-	if (head == nullptr || index <= 0)
-	{
-		this->push_front(value);
-	}
-	else if (index >= this->Size)
-	{
-		this->push_back(value);
-	}
-	else
-	{
-		Node<T>* previos = head;
-		for (int i = 0; i < index - 1; ++i)
-			previos = previos->pNext;
-		Node<T>* newNode = new Node<T>(value, previos->pNext);
-		previos->pNext = newNode;
-		++Size;
-	}
-}
-
-template<typename T>
-void List<T>::remoweAt(int index)
-{
-	if (index <= 0)
-	{
-		this->pop_front();
-	}
-	else
-	{
-		if (index >= this->Size - 1)
-			index = Size - 1;
-
-		Node<T>* previos = head;
-
-		for (int i = 0; i < index - 1; ++i)
-			previos = previos->pNext;
-
-		Node<T>* toDelete = previos->pNext;
-		previos->pNext = toDelete->pNext;
-		delete toDelete;
-		--Size;
-	}
-}
-
-
-template<typename T>
-T& List<T>::operator[](const int index)
-{
-	int counter = 0;
-	Node<T>* current = this->head;
-	while (current != nullptr)
-	{
-		if (counter == index)
-			return current->data;
-		else
-			current = current->pNext;
-		++counter;
-	}
-}
-
-template<typename T>
-void List<T>::push_front(T data)
-{
-	head = new Node<T>(data, head);
-	++Size;
-}
-
-template<typename T>
-void List<T>::pop_back()
-{
-	remoweAt(Size - 1);
-}
-
+															/// Ѕиблиотека STL. VECTOR
 
 
 int  main()
 
 {
 	setlocale(LC_ALL, "ru");
-	List<int> lst;
+	
+	vector<int> myVector;
+	myVector.push_back(2);
+	myVector.push_back(33);
+	myVector.push_back(25);
+	myVector.push_back(218);
+	myVector[0] = 1000;
 
-	int numbersCount;
-	cin >> numbersCount;
-	cout << endl << endl;
+	//cout << myVector[10] << endl;								 /// может дать либо сбой, либо чужие данные
 
-	for (int i = 0; i < numbersCount; ++i)
+	/*try
 	{
-		lst.push_back(rand() % 100);
+		cout << myVector.at(10) << endl;                          /// метод at  в любом случае не дает возможность доступа к чужим данным, но он медленный
 	}
+	catch (const std::out_of_range & ex)
+	{
+		cout << ex.what() << endl << endl;
+	}*/
+
+	for (int i = 0; i < myVector.size(); ++i)
+		cout << myVector[i] << endl;							/// метод size  - размер
 
 
-	/*lst.push_back(5);
-	lst.push_back(10);
-	lst.push_back(22);*/
-	/*cout<<lst.GetSize()<< endl;*/
+	//myVector.clear();											/// очищает vector
 
-	/*cout << lst[0] << endl;*/
+	cout << myVector.size() << endl << endl;
+	
+	myVector.pop_back();
 
-	for (int i = 0; i < lst.GetSize(); ++i)
-		cout << lst[i] << endl;
+	for (int i = 0; i < myVector.size(); ++i)
+		cout << myVector[i] << endl;
 
-	cout << "Ёлементов в списке " << lst.GetSize() << endl << endl << "выполн€ю метод pop_front" << endl << endl;
-	//lst.pop_front();
-	//lst.push_front(100);
-	lst.pop_back();
-	//lst.insert(1050, 10);
-	//lst.remoweAt(5);
+	cout << myVector.size() << endl << endl;
 
-	for (int i = 0; i < lst.GetSize(); ++i)
-		cout << lst[i] << endl;
+	vector<int>  myVector2 = { 1,2,3,4,5 };
+	myVector2.push_back(10);
+	myVector2.push_back(30);
+	myVector2.push_back(40);
+	myVector2.push_back(100);
 
-	cout << "Ёлементов в списке " << lst.GetSize() << endl << endl;
 
-	//lst.clear();
+	/*for (int i = 0; i < myVector2.size(); ++i)
+		cout << myVector2[i] << endl;*/
+
+	//myVector.capacity();
+	cout << myVector2.capacity()  << endl;                   /// это в принципе количество €чеек - при добавлении элементов иногда заранее 
+															/// выдел€етс€ массив с дополнительной €чейкой - сколько их определ€етс€ индивидуально 
+															/// в зависимости от размера массива и пр.
+	myVector2.reserve(100);									/// это можно самому регулировать
+															
+	cout << myVector2.capacity() << endl;
+
+	myVector2.shrink_to_fit();
+	cout << myVector2.capacity() << endl;					///оптимизирует размер
+	
+	vector<int> myVector3(20);								/// установление размера при инициализации
+	for (int i = 0; i < myVector3.size(); ++i)				/// при таком написании инициализируютс€ нул€ми
+		cout << myVector3[i] << endl;	
+	vector<int> myVector4(20,100);							/// при таком написании инициализируютс€ второй цифрой в скобках
+	for (int i = 0; i < myVector4.size(); ++i)				
+		cout << myVector4[i] << endl;
+
+	cout<<myVector4.empty()<<endl<<endl<<endl;				/// bool - пустой ли массивж
+
+	myVector4.resize(10);									/// мен€ет размер массива, если увеличивает то дописывает нул€ми
+	for (int i = 0; i < myVector4.size(); ++i)
+		cout << myVector4[i] << endl;
+	cout << endl;
+	myVector4.resize(5,200);								/// мен€ет размер массива, если увеличивает то дописывает вторым параметром в скобках		
+	for (int i = 0; i < myVector4.size(); ++i)
+		cout << myVector4[i] << endl;
 
 	return 0;
+
+
+
+		return 0;
  }
 
-template<typename T>
-template<typename T1>
-List<T>:: Node<T1>::Node(T1 data, Node* pNext) : data(data), pNext(pNext)
-{
-	/*this->data = data;
-	this->pNext = pNext;*/
-}
 
-template<typename T>
-template<typename T1>
-List<T>::Node<T1>::~Node()
-{
-}
