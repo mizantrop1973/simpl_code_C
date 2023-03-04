@@ -11,7 +11,7 @@
 using namespace std;
 
 
-															/// Библиотека STL. VECTOR
+															/// Итераторы
 
 
 int  main()
@@ -19,82 +19,54 @@ int  main()
 {
 	setlocale(LC_ALL, "ru");
 	
-	vector<int> myVector;
-	myVector.push_back(2);
-	myVector.push_back(33);
-	myVector.push_back(25);
-	myVector.push_back(218);
-	myVector[0] = 1000;
+	/*int arr[]{ 2,6,9 };
+	cout << arr[1] << endl;
+	cout << *(arr + 1) << endl;*/
 
-	//cout << myVector[10] << endl;								 /// может дать либо сбой, либо чужие данные
+	vector<int> myVector{ 1, 2, 3, 4, 5, 6 };
+	cout << myVector[1] << endl;                         /// в большинстве контейнеров оператор[] не перегружен
 
-	/*try
-	{
-		cout << myVector.at(10) << endl;                          /// метод at  в любом случае не дает возможность доступа к чужим данным, но он медленный
-	}
-	catch (const std::out_of_range & ex)
-	{
-		cout << ex.what() << endl << endl;
-	}*/
-
-	for (int i = 0; i < myVector.size(); ++i)
-		cout << myVector[i] << endl;							/// метод size  - размер
-
-
-	//myVector.clear();											/// очищает vector
-
-	cout << myVector.size() << endl << endl;
+	vector<int>::iterator it;							/// vector<int>::iterator - это тип данный, it  - переменная итератор
 	
-	myVector.pop_back();
+	it = myVector.begin();								/// дает доступ к первому элементу вектора
 
-	for (int i = 0; i < myVector.size(); ++i)
-		cout << myVector[i] << endl;
+	cout << *it << endl;			
 
-	cout << myVector.size() << endl << endl;
+	*it = 1000;
 
-	vector<int>  myVector2 = { 1,2,3,4,5 };
-	myVector2.push_back(10);
-	myVector2.push_back(30);
-	myVector2.push_back(40);
-	myVector2.push_back(100);
+	cout << *it << endl;
 
+	++it;
 
-	/*for (int i = 0; i < myVector2.size(); ++i)
-		cout << myVector2[i] << endl;*/
+	cout << *it << endl;
 
-	//myVector.capacity();
-	cout << myVector2.capacity()  << endl;                   /// это в принципе количество ячеек - при добавлении элементов иногда заранее 
-															/// выделяется массив с дополнительной ячейкой - сколько их определяется индивидуально 
-															/// в зависимости от размера массива и пр.
-	myVector2.reserve(100);									/// это можно самому регулировать
-															
-	cout << myVector2.capacity() << endl;
+	--it;
 
-	myVector2.shrink_to_fit();
-	cout << myVector2.capacity() << endl;					///оптимизирует размер
+	myVector.end();								///возврат итератора указывающего на следующий после последнего элемент
+
+	for (it = myVector.begin(); it != myVector.end(); ++it)
+		cout << *it << endl;
+
+	/// КОНСТАНТНЫЕ ИТЕРАТОРЫ
 	
-	vector<int> myVector3(20);								/// установление размера при инициализации
-	for (int i = 0; i < myVector3.size(); ++i)				/// при таком написании инициализируются нулями
-		cout << myVector3[i] << endl;	
-	vector<int> myVector4(20,100);							/// при таком написании инициализируются второй цифрой в скобках
-	for (int i = 0; i < myVector4.size(); ++i)				
-		cout << myVector4[i] << endl;
 
-	cout<<myVector4.empty()<<endl<<endl<<endl;				/// bool - пустой ли массивж
+	vector<int>::const_iterator it1 = myVector.begin();/// из за наследования константного итератора из обычного преобразование типа работает
 
-	myVector4.resize(10);									/// меняет размер массива, если увеличивает то дописывает нулями
-	for (int i = 0; i < myVector4.size(); ++i)
-		cout << myVector4[i] << endl;
-	cout << endl;
-	myVector4.resize(5,200);								/// меняет размер массива, если увеличивает то дописывает вторым параметром в скобках		
-	for (int i = 0; i < myVector4.size(); ++i)
-		cout << myVector4[i] << endl;
+	//*it1 = 7;									///  БУДЕТ ОШИБКА
+	
+	vector<int>::const_iterator it2 = myVector.cbegin();     /// а этот метод сразу возвращает константный итератор
+
+
+	for (it2 = myVector.cbegin(); it != myVector.cend(); ++it)
+		cout << *it << endl;
+
+
+	for ( vector<int>::reverse_iterator i = myVector.rbegin(); i != myVector.rend(); ++i)
+		cout << *i << endl;
+
+
 
 	return 0;
-
-
-
-		return 0;
  }
 
 
