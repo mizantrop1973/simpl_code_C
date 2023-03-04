@@ -86,15 +86,45 @@ int  main()
 	for (int i = 0; i < myVector4.size(); ++i)
 		cout << myVector4[i] << endl;
 	cout << endl;
-	myVector4.resize(5,200);								/// меняет размер массива, если увеличивает то дописывает вторым параметром в скобках		
+	myVector4.resize(20,200);								/// меняет размер массива, если увеличивает то дописывает вторым параметром в скобках		
 	for (int i = 0; i < myVector4.size(); ++i)
 		cout << myVector4[i] << endl;
+
+	cout << endl << endl;
+
+	///ИТЕРАТОРЫ ДЛЯ СЛЕДУЮЩИХ МЕТОДОВ
+	
+	vector<int>::iterator i = myVector.begin();
+
+	advance(i, 2);    ///или i+=2
+
+	myVector.insert(i, 999);
+	
+	for (vector<int>::iterator i = myVector.begin(); i < myVector.end(); ++i)
+		cout << *i << endl;
+	
+
+	vector<int>::iterator i1 = myVector.begin();
+	myVector.erase(i1);
+
+
+	for (vector<int>::iterator i = myVector.begin(); i < myVector.end(); ++i)
+		cout << *i << endl;
+
+	///УДАЛЕНИЕ ДИАПАЗОНА ЭЛЕМЕНТОВ
+
+	vector<int>::iterator i2= myVector4.begin();
+	myVector4.erase(i2,	i2+5);
+
+
+	for (vector<int>::iterator i = myVector4.begin(); i < myVector4.end(); ++i)
+		cout << *i<< endl;
+
+
 
 	return 0;
 
 
-
-		return 0;
  }
 
 
