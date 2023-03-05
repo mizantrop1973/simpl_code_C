@@ -3,19 +3,32 @@
 #include <math.h>
 #include<algorithm>
 #include<locale.h>
+#include<vector>;
 using namespace std;
 
 
 
 
-void main(int argc, char* argv[])
+int main()
 
 {
 	setlocale(LC_ALL, "ru");
-	for (int i = 0; i < argc; ++i)
-		cout << argv[i] << endl;  //выдает хотя бы один параметр - адрес экзешника в папке с проектом
-								  //если скопировать адрес экзешника в командную строку, можно через пробел можно передать массу параметров любых (набираем символы)
 
-	system("pause");
+	vector<int>myVector{ 1,2,3,4,5,6 };
+
+
+	
+	vector<int>::iterator it = myVector.begin();    /// долго писать тип
+
+	auto i = myVector.begin();    /// автоматически принимает тот тип. которым инициализируется переменная (в правой части) - идентично выражению выше. но короче
+
+	for (vector<int>::iterator it = myVector.begin(); it != myVector.end(); ++it)
+		cout << *it << endl;
+
+	for (auto it = myVector.begin(); it != myVector.end(); ++it)  /// эквивалентно верхнему примеру но короче
+		cout << *it << endl;
+
+
+	return 0;
 
 }
