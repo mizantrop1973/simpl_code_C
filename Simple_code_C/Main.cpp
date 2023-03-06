@@ -9,10 +9,12 @@
 #include<memory>							/// умные указатели
 #include<vector>
 #include<list>								/// подключаем LIST
+#include<forward_list>	
+
 using namespace std;
 
 
-															/// Библиотека STL. LIST (Двухсвязанный список)
+															/// Библиотека STL. forward_list - ОДНОСВЯЗНЫЙ СПИСОК!!!
 
 
 template<class T>
@@ -28,81 +30,37 @@ int  main()
 {
 	setlocale(LC_ALL, "ru");
 	
-	list<int> myList;
-
-	myList.push_back(5);										/// так же есть pop.back(), pop.front(), size, 
-	myList.push_front(10);
-	myList.push_back(520);
-
-	//myList[0]   - оператор не перегружен
-
-	auto it = myList.begin();
-
+	forward_list<int> fl {1,2,3,4,5};
 	
-	for(auto it = myList.begin();it != myList.end(); ++it)
-		cout << *it << endl;
+	fl.push_front(55);
+	fl.push_front(56);
 
-	list<int> myList1{ 1,2,3,4,5,6 };      /// можно и так инициализировать
+	/*for (auto el : fl)
+		cout << el << endl;*/
 
-	for (auto it = myList1.begin(); it != myList1.end(); ++it)
-		cout << *it << endl;
+	forward_list<int>::iterator i = fl.begin();
 
-	PrintList(myList);
-
-	myList.sort();
-	PrintList(myList);
-	cout << endl << endl;
-
-	list<int> myList2{ 1,2,3,5,2,1,4,8,1,1,1,2,9,6,3,3,2 };
-	PrintList(myList2);
-
-	cout << endl << endl;
-	myList2.unique();								/// удаляет дубликаты которые идут подряд
-	PrintList(myList2);
+	cout << *i << endl;
 
 	cout << endl << endl;
 
-	myList2.reverse();
-	
-	PrintList(myList2);							/// размещает лист в обратном порядке
+	++i; 
+	///--i;   ошибка, так как это односвязный список
 
-	cout << endl << endl;
-	myList1.clear();
-	PrintList(myList1);
+	fl.insert_after(i, 9999);									/// вставляет после элемента  -  из зи того что список односвязный
 
-	cout << endl << endl;
-
-	auto i = myList2.begin();					/// вставить новый элемент
-	advance(i, 3);
-	myList2.insert(i, 100);
-	PrintList(myList2);
+	for (auto el : fl)
+		cout << el << endl;
 
 	cout << endl << endl;
 
-	myList2.erase(i);                 /// так как это не индекс, а указатель, поэтому итераторы лучше для каждого метода делать свои
-	myList2.push_back(100);
-	PrintList(myList2);
+	/// как вставить в начало
+	forward_list<int>::iterator it = fl.before_begin();			/// указывает на "предпервую" позицию
+	fl.insert_after(it, 9999);									/// соответственно вставка будет в первую позицию
 
-	
+	for (auto el : fl)
+		cout << el << endl;
 
-	cout << endl << endl;
-
-	myList2.remove(100);           /// удаляет ВЕЗДЕ конкретное число если найдет
-	PrintList(myList2);
-
-	cout << endl << endl;
-
-	myList2.assign(5, 0);           ///  удаляет ВСЕ и заполняет лист - первый поараметр - количество элементов, второй - число, которым заполняется лист
-	PrintList(myList2);
-
-	cout << endl << endl;
-
-	myList2.assign(myList.begin(), myList.end());           ///  переписывает один список в другой
-	PrintList(myList2);
-	
-	
-	
-	
 	return 0;
 
 
