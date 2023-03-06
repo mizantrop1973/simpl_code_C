@@ -14,7 +14,7 @@
 using namespace std;
 
 
-															/// Ѕиблиотека STL.  онтейнер дл€ статического массива array
+															///—равнение контейнеров STL. 
 
 
 template<class T>
@@ -30,34 +30,18 @@ int  main()
 {
 	setlocale(LC_ALL, "ru");
 	
-	array<int, 4> arr{1,2,3,4};
+	
+	array<int, 4> arr1{ 1,1,3,4 };
+	array<int, 4> arr2{ 1,1,10,0 };
 
-	/*try
-	{
-		cout << arr.at(11) << endl;						/// при выходе за пределы массива гарантирует ошибку
-	}
-	catch (const exception&ex)
-	{
-		cout << ex.what() << endl;
-	}*/
+	bool result = (arr1 == arr2);
 
+	cout << result << endl;
 
-
-	for(auto i : arr)
-
-		cout << i << endl;							/// при выходе за пределы массива может дать непон€тные данные, а может ошибку
+	result = (arr1 > arr2);
+	cout << result << endl;
 
 
-	arr.fill(-1);
-
-	for (auto i : arr)
-
-		cout << i << endl;
-
-	cout << endl << endl;
-
-
-	cout<<arr.front()<<endl;
 	return 0;
 
 
