@@ -4,9 +4,22 @@
 #include<algorithm>
 #include<locale.h>
 #include<vector>;
+#include<list>
 using namespace std;
 
 
+														/// ЦИКЛ for... each  - не стандарт!!!! И не поддерживается
+														/// есть алгоритм for_each  - не путать (algoritm)
+														/// остался так называемый range-based цикл (цикла для диапазона) - ниже в коде. СТАНДАРТ!
+
+
+
+template<typename T>
+void PrintList(const list<T>& lst)
+{
+	for (auto i = lst.cbegin(); i != lst.cend(); ++i)							/// укоротили и упростили код 
+		cout << *i << endl;
+}
 
 
 int main()
@@ -14,21 +27,37 @@ int main()
 {
 	setlocale(LC_ALL, "ru");
 
-	vector<int>myVector{ 1,2,3,4,5,6 };
+	int arr[]={ 1,2,3,4,5 };
 
+	for(auto var: arr)									/// передается копия, если мы что то меняем, то массив не меняется
+	{
+		var = -1;
+		cout << var << endl;
+	}
 
+	for (auto &var : arr)									/// передается ссылка, массив меняется
+	{
+		var = 100;
+		cout << var << endl;
+	}
 	
-	vector<int>::iterator it = myVector.begin();    /// долго писать тип
-
-	auto i = myVector.begin();    /// автоматически принимает тот тип. которым инициализируется переменная (в правой части) - идентично выражению выше. но короче
-
-	for (vector<int>::iterator it = myVector.begin(); it != myVector.end(); ++it)
-		cout << *it << endl;
-
-	for (auto it = myVector.begin(); it != myVector.end(); ++it)  /// эквивалентно верхнему примеру но короче
-		cout << *it << endl;
 
 
+	for (const auto& var : arr)									/// передается ссылка, массив меняется
+	{
+		///var = 100;											/// ошибка
+		cout << var << endl;
+	}
+	
+	list<int> myList{ 9,8,7,6,5 };
+	
+	PrintList(myList);
+	
 	return 0;
+
+
+
+
+
 
 }
