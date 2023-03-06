@@ -10,11 +10,11 @@
 #include<vector>
 #include<list>								/// подключаем LIST
 #include<forward_list>	
-
+#include<array>								
 using namespace std;
 
 
-															/// Библиотека STL. forward_list - ОДНОСВЯЗНЫЙ СПИСОК!!!
+															/// Библиотека STL. Контейнер для статического массива array
 
 
 template<class T>
@@ -30,37 +30,34 @@ int  main()
 {
 	setlocale(LC_ALL, "ru");
 	
-	forward_list<int> fl {1,2,3,4,5};
-	
-	fl.push_front(55);
-	fl.push_front(56);
+	array<int, 4> arr{1,2,3,4};
 
-	/*for (auto el : fl)
-		cout << el << endl;*/
+	/*try
+	{
+		cout << arr.at(11) << endl;						/// при выходе за пределы массива гарантирует ошибку
+	}
+	catch (const exception&ex)
+	{
+		cout << ex.what() << endl;
+	}*/
 
-	forward_list<int>::iterator i = fl.begin();
 
-	cout << *i << endl;
+
+	for(auto i : arr)
+
+		cout << i << endl;							/// при выходе за пределы массива может дать непонятные данные, а может ошибку
+
+
+	arr.fill(-1);
+
+	for (auto i : arr)
+
+		cout << i << endl;
 
 	cout << endl << endl;
 
-	++i; 
-	///--i;   ошибка, так как это односвязный список
 
-	fl.insert_after(i, 9999);									/// вставляет после элемента  -  из зи того что список односвязный
-
-	for (auto el : fl)
-		cout << el << endl;
-
-	cout << endl << endl;
-
-	/// как вставить в начало
-	forward_list<int>::iterator it = fl.before_begin();			/// указывает на "предпервую" позицию
-	fl.insert_after(it, 9999);									/// соответственно вставка будет в первую позицию
-
-	for (auto el : fl)
-		cout << el << endl;
-
+	cout<<arr.front()<<endl;
 	return 0;
 
 
