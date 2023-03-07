@@ -10,11 +10,13 @@
 #include<vector>
 #include<list>								/// подключаем LIST
 #include<forward_list>	
-#include<array>								
+#include<array>			
+#include<deque>								/// двухсторонн€€ очередь
 using namespace std;
 
 
-															///—равнение контейнеров STL. 
+															/// онтейнер deque двухсторонн€€ очередь - гибрид между вектором и двухсторонним списком
+															/// по сути двухсв€занный список векторов
 
 
 template<class T>
@@ -30,16 +32,10 @@ int  main()
 {
 	setlocale(LC_ALL, "ru");
 	
+	deque<int> dq{ 1,2,3,4,5 };
+
+	dq.begin();
 	
-	array<int, 4> arr1{ 1,1,3,4 };
-	array<int, 4> arr2{ 1,1,10,0 };
-
-	bool result = (arr1 == arr2);
-
-	cout << result << endl;
-
-	result = (arr1 > arr2);
-	cout << result << endl;
 
 
 	return 0;
