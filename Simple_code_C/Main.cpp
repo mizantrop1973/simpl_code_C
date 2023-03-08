@@ -10,15 +10,22 @@
 using namespace std;
 
 
-															/// ИНОГОПОТОЧНОЕ ПРОГРАММИРОВАНИЕ, thread
+															/// ИНОГОПОТОЧНОЕ ПРОГРАММИРОВАНИЕ, ПЕРЕДАЧА ПАРАМЕТРОВ В ПОТОК
 
-void DoWork()														/// номер потока будет тот же самый что и у main!!!!
+
+
+
+
+
+void DoWork(int a, int b, string msg)														
 {
-	for (size_t i = 0; i < 10; ++i)
-	{
-		cout << "ID of the stream = " << this_thread::get_id() << "\tDoWork\t" <<i<< endl;
-		this_thread::sleep_for(chrono::milliseconds(1000));
-	}
+	cout << msg << endl;
+	this_thread::sleep_for(chrono::milliseconds(3000));
+	cout << "============================\tDoWorked STARTED\t========================================" << endl;
+	this_thread::sleep_for(chrono::milliseconds(5000));
+	cout << "a  +  b  =  " << a + b << endl;
+	this_thread::sleep_for(chrono::milliseconds(3000));
+	cout << "============================\tDoWorked STOPED\t=========================================" << endl;
 }
 
 
@@ -27,58 +34,15 @@ int  main()
 {
 	setlocale(LC_ALL, "ru");
 
+	thread th(DoWork, 2,3, "Sum");              /// передача параметров в поток - обязательно соблюдать количество и типа параметров
 
-
-	/*cout << "START MAIN" << endl;
-
-	/// приостановка работы текущего потока
-
-	this_thread::sleep_for(chrono::milliseconds(3000));
-
-	/// идентификатор текущего потока
-
-	cout << this_thread::get_id() << endl;
-
-	cout << "END MAIN" << endl << endl << endl;
-
-	///------------------------------------------------------------------------------------------------------------------------------------
-
-	DoWork();
-
-	for (size_t i = 0; i < 10; ++i)
+	for (size_t i = 0;true; i++)     /// постоянная работа
 	{
-		cout << "ID of the stream = " << this_thread::get_id() << "\tmain\t" <<i<< endl;
+		cout << "Stream's ID = " << this_thread::get_id() << "\tmain works\t" << i << endl;
 		this_thread::sleep_for(chrono::milliseconds(500));
 	}
 
-	cout << "END MAIN" << endl << endl << endl;
-
-	///------------------------------------------------------------------------------------------------------------------------------------*/
-
-	thread th(DoWork);						/// создание другого потока и передача ему функции по указателю (имя функции - указатель, как у массива!!!!)
-
-	thread th1(DoWork);
-
-	/// обязательно в комплексе в нижеуказанным определением
-
-	///th.detach();								/// созданный поток выполняется независимо, но только пока работает основной поток, 
-											    ///потом останавливается, не все итерации могут
-	/// ИЛИ
-
-	/// th.join();                            /// вызывается там, где нам нужно дождаться окончания второго потока перед окончанием основного
-
-	for (size_t i = 0; i < 10; ++i)
-	{
-		cout << "ID of the stream = " << this_thread::get_id() << "\tmain\t" << i << endl;
-		this_thread::sleep_for(chrono::milliseconds(500));
-	}
-
-	th.join();								  /// ждем созданный поток
-
-	th1.join();
-	cout << "END MAIN" << endl << endl << endl;
-
-	///------------------------------------------------------------------------------------------------------------------------------------
+	th.join();
 
 	return 0;
  }
