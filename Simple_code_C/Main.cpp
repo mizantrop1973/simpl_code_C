@@ -2,98 +2,63 @@
 #include<ctime>								/// время
 #include <math.h>							/// математические ф-ции
 #include<algorithm>							/// библиотека ф-ций
-#include<locale.h>							/// язык
-#include<fstream>							/// поток в файлы
+#include<locale.h>							
+#include<vector>							
 #include<string>
-#include<Windows.h>							/// для изменения кодировки консоли
-#include<memory>							/// умные указатели
+#include<deque>							
+#include<list>							
 
-#include<map>								
+#include<stack>								
 using namespace std;
 
-/// КОНТЕЙНЕРЫ map, multymap (разница как у set - в дублирующих значениях КЛЮЧА)
-/// хранит значение и ключ
+															/// STL. АДАПТЕРЫ КОНТЕЙНЕРОВ stack, que, priority que
+																/// stack
 
 int  main()
 
 {
 	setlocale(LC_ALL, "ru");
 
+	stack<int> st;
 
-	pair<int, string> p(1, "telephone");
-	cout << p.first << endl;  // int
-	cout << p.second << endl; // string
+	st.push(9);
+	st.push(19);
+	st.push(125);
+	st.emplace(23);                                   /// новее чем push, создает не копию а прям в стеке
 
-	map< int, string > myMap;
+	cout<<st.size()<<endl;
+	st.empty();
+	cout << st.top() << endl;
+	st.pop();
+	cout<<st.top()<<endl;
 
-	myMap.insert(make_pair(3, "telephone"));			/// или myMap.insert(pair<int, string> p( 1, "telephone");
-	myMap.insert(pair<int, string>(2, "laptop"));
-
-	myMap.emplace(1, "monitor");						/// третий способ !!!!!!!!!
-
-	auto it = myMap.find(1);							/// (если ключ не найден - выдаст ошибку НИЖЕ, при печати на консоль,  поэтому лучше делать проверку)
-	if (it != myMap.end())
-		cout << it->second << endl << endl;
-
-	for (auto el : myMap)
-		cout << el.first << "  " << el.second << endl;
-
-	cout << myMap[2] << endl;                       /// перегружен [] , в скобках - КЛЮЧ
-
-
-	cout << endl << endl;
-
-
-	map< string, int > myMap1;
-
-	myMap1.emplace("Peter", 20009);
-	myMap1.emplace("Anna", 2659);
-	myMap1.emplace("John", 130);
-	myMap1.emplace("Paul", 200453);
-
-	cout << myMap1["Peter"] << endl;
-
-	myMap1["John"] = 1000000;
-
-	myMap1["Lisa"] = 51044;                   /// если нет в списке - добавит
-
-	myMap1.at("Paul") = 3;                   /// не добавляет новый элемент если его нет в списке, а вызывает исключение
-
-	try
+	while (!st.empty())									/// как просмотреть все элементы но только с извлечением
 	{
-		myMap1.at("Sabrina") = 1002;
-	}
-	catch (const exception& ex)
-	{
-		cout << ex.what() << endl;
-		cout << "The key is not found" << endl;
+		cout << st.top() << endl;
+		st.pop();
 	}
 
-	cout << endl << endl << endl;
 
-	myMap1.erase("Peter");
+	auto a = st._Get_container();									/// основа стека (по умолчанию deque)
 
-	for (auto el : myMap1)
-		cout << el.first << "  " << el.second << endl;
+	cout << a[2] << endl;											/// начинаем работать уже как с deque
 
-	cout << endl << endl;
+	stack<int, list<int>> st1 /*{1,2,3,4,5,6,7,8} - не работает*/ ;	/// конкретное указание основы, методы только как у стэка
 
-	multimap<string, int> mm;
+	st1.push(9);
+	st1.push(19);
+	st1.push(125);
+	st1.emplace(23);
 
-	mm.emplace("Peter", 20009);
-	mm.emplace("Anna", 2659);
-	mm.emplace("John", 130);
-	mm.emplace("Paul", 200453);
+	while (!st1.empty())									/// как просмотреть все элементы но только с извлечением
+	{
+		cout << st1.top() << endl;
+		st.pop();
+	}
 
-	mm.emplace("Anna", 1324);
+	auto l = st1._Get_container();							/// уже работаем как с листом
 
-	for (auto el : mm)
-		cout << el.first << "  " << el.second << endl;
-
-	///mm[] = не перегружен так как ключи дублируются
-
-	/// нет метожа at()
-
+	 
 
 
 	return 0;
