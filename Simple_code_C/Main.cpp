@@ -8,59 +8,71 @@
 #include<deque>							
 #include<list>							
 
-#include<stack>								
+#include<stack>	
+#include<queue>
 using namespace std;
 
-															/// STL. АДАПТЕРЫ КОНТЕЙНЕРОВ stack, que, priority que
-																/// stack
+															/// STL. АДАПТЕРЫ КОНТЕЙНЕРОВ  queye, priority queue
+														
 
 int  main()
 
 {
 	setlocale(LC_ALL, "ru");
 
-	stack<int> st;
+	queue<int> q;
+	queue<int> q1;
 
-	st.push(9);
-	st.push(19);
-	st.push(125);
-	st.emplace(23);                                   /// новее чем push, создает не копию а прям в стеке
+	q.push(1);
+	q.push(2);
+	q.push(5);
+	q.push(23);
+	q.push(16);
+	cout<<q.back()<<endl;											///доступ к последнему элементу (ссылка), можем поменять посмотреть но не извлечь
+	q.pop();													/// извлекается элемент (только первый)
+	cout << q.front() << endl;
 
-	cout<<st.size()<<endl;
-	st.empty();
-	cout << st.top() << endl;
-	st.pop();
-	cout<<st.top()<<endl;
-
-	while (!st.empty())									/// как просмотреть все элементы но только с извлечением
+	while (!q.empty())
 	{
-		cout << st.top() << endl;
-		st.pop();
+		cout << q.front() << endl;
+		q.pop();
 	}
+	cout << "Quantity jf elements is " << q.size() << endl;
+	q1.push(10);
+	q1.push(25);
+	q1.push(58);
+	q1.push(21);
+	q1.push(161);
 
+	q.swap(q1);														/// СВАП
+	
+	cout << "Quantity jf elements q is " << q.size() << endl;
+	cout << "Quantity jf elements q1 is " << q1.size() << endl;
+	
+	
+	auto s = q._Get_container();                             /// deque по умолчанию
 
-	auto a = st._Get_container();									/// основа стека (по умолчанию deque)
+	queue<int, list<int>> q2;									/// Только List и deque, vector - не подходит!!!!!!!!!!!!!!!!!!
 
-	cout << a[2] << endl;											/// начинаем работать уже как с deque
+	auto a = q2._Get_container();
 
-	stack<int, list<int>> st1 /*{1,2,3,4,5,6,7,8} - не работает*/ ;	/// конкретное указание основы, методы только как у стэка
+															/// Очередь с приоритетом <vector, deque> (NO List!!!!!!)
+															/// по умолчанию vector
 
-	st1.push(9);
-	st1.push(19);
-	st1.push(125);
-	st1.emplace(23);
+	priority_queue<int> pq;
+	pq.push(10);
+	pq.push(25);
+	pq.push(58);
+	pq.push(21);
+	pq.push(161);
+	
 
-	while (!st1.empty())									/// как просмотреть все элементы но только с извлечением
+	while (!pq.empty())
 	{
-		cout << st1.top() << endl;
-		st.pop();
+		cout << pq.top() << endl;
+		pq.pop();
 	}
-
-	auto l = st1._Get_container();							/// уже работаем как с листом
-
-	 
-
-
+	cout << "Quantity jf elements pq is " << pq.size() << endl;
 	return 0;
 
 
