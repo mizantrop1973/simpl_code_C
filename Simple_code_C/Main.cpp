@@ -8,99 +8,95 @@
 #include<Windows.h>							/// для изменения кодировки консоли
 #include<memory>							/// умные указатели
 
-#include<set>								/// 
+#include<map>								
 using namespace std;
 
-
-															/// Ассоциативный контейнер SET, multiset
-															/// Упорядочные элементы - БИНАРНОЕ ДЕРЕВО 
-															/// Только уникальные элементы
+/// КОНТЕЙНЕРЫ map, multymap (разница как у set - в дублирующих значениях КЛЮЧА)
+/// хранит значение и ключ
 
 int  main()
 
 {
 	setlocale(LC_ALL, "ru");
-	
-	set<int> mySet{2,6,9,7,1};       /// Бинарное деоево с уникальными значениями , в порядке возрастания
 
-	mySet.insert(5);
-	mySet.insert(1);
-	mySet.insert(12);
 
-	mySet.insert(4);
-	mySet.insert(-1);
+	pair<int, string> p(1, "telephone");
+	cout << p.first << endl;  // int
+	cout << p.second << endl; // string
 
-	mySet.insert(5);
+	map< int, string > myMap;
 
-	for (auto& item : mySet)
-		cout << item << endl;
+	myMap.insert(make_pair(3, "telephone"));			/// или myMap.insert(pair<int, string> p( 1, "telephone");
+	myMap.insert(pair<int, string>(2, "laptop"));
+
+	myMap.emplace(1, "monitor");						/// третий способ !!!!!!!!!
+
+	auto it = myMap.find(1);							/// (если ключ не найден - выдаст ошибку НИЖЕ, при печати на консоль,  поэтому лучше делать проверку)
+	if (it != myMap.end())
+		cout << it->second << endl << endl;
+
+	for (auto el : myMap)
+		cout << el.first << "  " << el.second << endl;
+
+	cout << myMap[2] << endl;                       /// перегружен [] , в скобках - КЛЮЧ
+
 
 	cout << endl << endl;
 
-	for (int i = 0; i < 20; ++i)
-		mySet.insert(rand() % 10);
 
-	for (auto& item : mySet)
-		cout << item << endl;
+	map< string, int > myMap1;
 
-	cout << endl << endl;
+	myMap1.emplace("Peter", 20009);
+	myMap1.emplace("Anna", 2659);
+	myMap1.emplace("John", 130);
+	myMap1.emplace("Paul", 200453);
 
-	/// поиск элементов , удаление и вставка - чтобы изхменить элемент в set
+	cout << myMap1["Peter"] << endl;
 
-	set<int> mySet1{ 12,34,56,2,-1,99,37 };
+	myMap1["John"] = 1000000;
 
-	auto it = mySet1.find(10);      /// возвращает итератор на той позиции где это число, или на следующий после последнего "элемент" (где он мог бы быть)
+	myMap1["Lisa"] = 51044;                   /// если нет в списке - добавит
 
-	auto it1 = mySet1.find(2);
+	myMap1.at("Paul") = 3;                   /// не добавляет новый элемент если его нет в списке, а вызывает исключение
 
-	int value = 56;
+	try
+	{
+		myMap1.at("Sabrina") = 1002;
+	}
+	catch (const exception& ex)
+	{
+		cout << ex.what() << endl;
+		cout << "The key is not found" << endl;
+	}
 
-	if (mySet1.find(value) != mySet1.end())
-		cout << "Number " << value << " was found";
-	else
-		cout << "Number " << value << " wasn't found";
+	cout << endl << endl << endl;
 
-	cout << endl << endl;
+	myMap1.erase("Peter");
 
-	mySet1.erase(199);
-	mySet1.insert(77);                  /// возвращается 2 значения, 1 - итератор, 2 -bool (1 если добавили, 0, если такое число уже было)
-
-	for (auto& item : mySet1)
-		cout << item << endl;
-
-	cout << endl << endl;
-
-	multiset<int> ms{ 2,3,4,6,8,0,3,3,4,4,6 };     /// может содержать дубли
-
-	for (auto& item : ms)
-		cout << item << endl;
+	for (auto el : myMap1)
+		cout << el.first << "  " << el.second << endl;
 
 	cout << endl << endl;
 
-	ms.find(3);
-	ms.lower_bound(4);								/// возвращает первую найденную четверку (итератор, то есть указатель)
-	 
-	auto s = ms.upper_bound(4);								/// вернет нам следующий элемент после 4 по возрастанию.
+	multimap<string, int> mm;
 
-	ms.erase(3);
-	ms.insert(4);
+	mm.emplace("Peter", 20009);
+	mm.emplace("Anna", 2659);
+	mm.emplace("John", 130);
+	mm.emplace("Paul", 200453);
 
-	for (auto& item : ms)
-		cout << item << endl;
+	mm.emplace("Anna", 1324);
 
-	cout << endl << endl;
+	for (auto el : mm)
+		cout << el.first << "  " << el.second << endl;
 
-	cout << *s << endl;
+	///mm[] = не перегружен так как ключи дублируются
 
-	cout << endl << endl;
-
-	auto d = ms.equal_range(4);
+	/// нет метожа at()
 
 
-	//cout << *d << endl;
+
 	return 0;
 
 
- }
-
-
+}
