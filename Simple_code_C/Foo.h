@@ -1,5 +1,5 @@
 ///#pragma once							 работает не для всех компиляторов
-#ifdef _FOO_H
+#ifndef _FOO_H
 
 #define _FOO_H
 
