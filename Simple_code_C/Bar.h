@@ -1,7 +1,9 @@
-//#pragma once                           /// Работает не для всех компиляторов
+#pragma once                           /// Работает не для всех компиляторов
 
-#ifndef _BAR_H_
+#ifndef _BAR_H_						/// подстраховка
+
 #define _BAR_H_
+
 #include"Foo.h"
 void Bar();
 
