@@ -12,18 +12,12 @@
 using namespace std;
 
 
-															/// ѕќЋ»ћќ–‘…Ќјя ќЅ≈– ј ‘”Ќ ÷»» std::function - указатель на функцию
-//
-//void Foo1()
-//
-//{
-//	cout << "Foo()  " << endl;
-//}
+															/// ЋяћЅƒј ‘”Ќ ÷»» / ¬џ–ј∆≈Ќ»я (јнонимные)
 
 void Bar(int a)
 {
 	if (a%2 ==0)
-	cout<< "FOO "<< a << endl;
+		cout<< "FOO "<< a << endl;
 }
 
 
@@ -35,33 +29,22 @@ void Foo(int a)
 
 }
 
-
-//void DoWork(vector<int>& v)
+//void DoWork4(vector<int>& v, vector<function<void(int)>> f)
 //{
 //	for (auto el : v)
-//		Foo(el);
-//}
-//
-//void DoWork1(vector<int>& v)
-//{
-//	for (auto el : v)
-//		Bar(el);
+//	{
+//		for (auto &el1 : f)
+//			el1(el);
+//	}
 //}
 
-void DoWork3(vector<int>& v, function<void(int)> f)
+void DoWork5(vector<int>& v, function<void(int)> f)
 {
 	for (auto el : v)
 		f(el);
 }
 
-void DoWork4(vector<int>& v, vector<function<void(int)>> f)
-{
-	for (auto el : v)
-	{
-		for (auto &el1 : f)
-			el1(el);
-	}
-}
+
 
 void Bas(int a)
 {
@@ -73,29 +56,48 @@ int  main()
 {
 	setlocale(LC_ALL, "ru");
 
-	/*function<void()> f;										/// function  - указетель дл€ любой ф-цции с этой сигнатурой!!!
-	f = Foo1;
+	//int p = 0;
 
-	f();
+	//auto f = [&p](int a)												/// квадратные скобки дл€ передачи внешнего контектса
+	//{
+	//	p = 5;
+	//	///return (что будет возвращать ф-ци€), если этого слова нет -  ничего не будет возвращать
+	//};
 
-	function<void(int)> f1;
+	//f();														/// в 14- ом стандарте разрешили ссылатьс€ на л€мбду ключевым словом auto!!!!
 
-	f1 = Bar;
+	//auto q = (f)
 
-	f1(50);
+		auto f1 = [](int a, int b)												/// квадратные скобки дл€ передачи внешнего контектса
+	{
+		return a + b;
+	};
 
-	DoWork(v);
-	DoWork1(v);
+														/// в 14- ом стандарте разрешили ссылатьс€ на л€мбду ключевым словом auto!!!!
 
-	cout << endl << endl << endl;*/
+	auto q = f1(1, 4);
 
-	vector <int> v{ 1,2,3,54,89,62,14,74 };
-	vector< function<void(int) >> f;
-	f.emplace_back(Foo);
-	f.emplace_back(Bar);
-	f.emplace_back(Bas); 
 
-	DoWork4(v, f);
+
+
+	vector<int> v{ 1,2,3,4,5,6,7,8,9 };
+
+	//function <void(int)> f1;                       ///этот посредник не нужен
+
+
+
+	//f1 = [](int a)										/// это и есть анонимна€ ф-ци€ (сигнатура)
+	//{
+	//	cout << "anonym function\t" << a << endl;
+	//};									
+
+	//DoWork5(v, f1);
+
+	/*DoWork5(v, [](int a)										/// передаем без посредника сразу в вызов функции
+		{
+			if (a % 2 == 0)
+				cout << "Ћ€мбда " << a << endl;
+		});*/
 
 	return 0;
 }
