@@ -97,6 +97,9 @@ int  main()
 
 	DoWork4(v, f);
 
+	DoWork3(v, Foo);
+	DoWork3(v, Bar);
+
 	return 0;
 }
 
