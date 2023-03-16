@@ -10,25 +10,13 @@
 using namespace std;
 
 
-															/// къладю х хмнцнонрнвмне опнцпюллхпнбюмхе, бнгбпюр пегскэрюрю онрнйю
+															/// къладю. гюубюр йнмрейярю
 
 
 
 
 
 
-int Sum(int a, int b)													
-{
-	
-	this_thread::sleep_for(chrono::milliseconds(3000));
-	cout <<"ID stream =  "<< this_thread::get_id()<< "============================\tSum STARTED\t========================================" << endl;
-	this_thread::sleep_for(chrono::milliseconds(5000));
-
-	this_thread::sleep_for(chrono::milliseconds(3000));
-	cout << "ID stream =  " << this_thread::get_id() << "============================\tSum STOPED\t=========================================" << endl;
-	return a + b;
-	
-}
 
 
 int  main()
@@ -36,25 +24,14 @@ int  main()
 {
 	setlocale(LC_ALL, "ru");
 
-	
+	int a = 55;
 
-	int result;
-
-	///thread th(Sum, 2, 5);									/// МЕ БЕПМЕЛ ГМЮВЕМХЕ
-
-	thread th([&result]() {result = Sum(2, 5); });
-
-
-	
-
-	for (size_t i = 0;i<10; i++)     
+	auto f = [a]()
 	{
-		cout << "Stream's ID = " << this_thread::get_id() << "\tmain works\t" << i << endl;
-		this_thread::sleep_for(chrono::milliseconds(500));
-	}
-
-	th.join();
-	cout << result << endl;
+		cout << a << endl;
+	};
+	
+	f();
 
 	return 0;
  }
