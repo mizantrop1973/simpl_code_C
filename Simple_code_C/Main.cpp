@@ -10,23 +10,23 @@
 using namespace std;
 
 
-															/// ИНОГОПОТОЧНОЕ ПРОГРАММИРОВАНИЕ, ВОЗВРАТ РЕЗУЛЬТАТА ИЗ ПОТОКА ПО ССЫЛКЕ
+															/// ЛЯМБДА И ИНОГОПОТОЧНОЕ ПРОГРАММИРОВАНИЕ, ВОЗВРАТ РЕЗУЛЬТАТА ПОТОКА
 
 
 
 
 
 
-void Sum(int a, int b, int &p)													
+int Sum(int a, int b)													
 {
 	
 	this_thread::sleep_for(chrono::milliseconds(3000));
 	cout <<"ID stream =  "<< this_thread::get_id()<< "============================\tSum STARTED\t========================================" << endl;
 	this_thread::sleep_for(chrono::milliseconds(5000));
-	p = a + b;
+
 	this_thread::sleep_for(chrono::milliseconds(3000));
 	cout << "ID stream =  " << this_thread::get_id() << "============================\tSum STOPED\t=========================================" << endl;
-
+	return a + b;
 	
 }
 
@@ -36,20 +36,25 @@ int  main()
 {
 	setlocale(LC_ALL, "ru");
 
-	int p = 0;
+	
 
-	///thread th (Sum,2,3, p);              /// передача параметров в поток - обязательно соблюдать количество и типа параметров
+	int result;
 
-	thread th(Sum, 2, 3, std::ref(p));    ///вот как надо !!!!!!!!!!!!!!!!!!!!!
+	///thread th(Sum, 2, 5);									/// не вернем значение
 
-	for (size_t i = 0;i<10; i++)     /// постоянная работа
+	thread th([&result]() {result = Sum(2, 5); });
+
+
+	
+
+	for (size_t i = 0;i<10; i++)     
 	{
 		cout << "Stream's ID = " << this_thread::get_id() << "\tmain works\t" << i << endl;
 		this_thread::sleep_for(chrono::milliseconds(500));
 	}
 
 	th.join();
-	cout << "a  +  b  =  " << p << endl;     /// будет ошибка, так как в случае с другим потоком параметр передается в функцию все равно по значению
+	cout << result << endl;
 
 	return 0;
  }
