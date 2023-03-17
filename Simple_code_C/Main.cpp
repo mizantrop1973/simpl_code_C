@@ -6,106 +6,90 @@
 #include<fstream>							/// поток в файлы
 #include<string>
 #include<thread>							/// дл€ потоков
+#include<vector>
 //#include<chrono>							/// дл€ времени (при включенной библиотеке потоков подключаетс€ автоматом)
 using namespace std;
 
-class EvenFunctor
+
+															/// ѕредикаты - функторы возвращающие логические выражени€ (булевые значени€)
+
+
+bool GreaterThanZero(int value)
 {
-public:
-	EvenFunctor();
-	~EvenFunctor();
-
-	void showevenSum()
-	{
-		cout << "Output sum of even numbers = " << evenSum << endl;
-	}
-
-	void showevenCount()
-	{
-		cout << "Output count of even numbers = " << evenCount << endl;
-	}
-
-	void operator()(int value)
-	{
-		if (value % 2 == 0)
-		{
-			++evenCount;
-			evenSum += value;
-		}
-
-	}
-
-
-private:
-	int evenSum = 0;
-	int evenCount = 0;
-
-};
-
-EvenFunctor::EvenFunctor()
-{
+	return value > 0;
 }
 
-EvenFunctor::~EvenFunctor()
-{
-}
-
-
-class MyFunctor
+class Person
 {
 public:
-	MyFunctor();
-	~MyFunctor();
-	/*void operator()()
-	{
-		cout << "I am a functor " <<count<< endl;
-		++count;
-	}*/
+	Person(string name, double score);
+	~Person();
 
-	int operator()(int a, int b)
+	bool operator()(const Person& p)
 	{
-		cout << "I am a functor" << endl;
-		return a + b;
+		return p.score > 180;
 	}
+
+	string name;
+	double score;
 
 private:
 
-	//int count = 0;
-
 };
 
-MyFunctor::MyFunctor()
+Person::Person(string name, double score)
+{
+	this->name = name;
+	this->score = score;
+}
+
+Person::~Person()
 {
 }
 
-MyFunctor::~MyFunctor()
-{
-}
+
+
+
 
 int  main()
 
 {
 	
-	MyFunctor f;
+	setlocale(LC_ALL, "ru");
 
-	/*f();
-	f();
-	f();
-	f();*/
+	/*vector<int> v{ 12,-34,32,76,-45,98,-64 };
 
-	int result = f(2, 6);
+	int result = count_if(v.begin(), v.end(), GreaterThanZero);       /// возвращает 	ptrdiff_t - а это обычный int
 
-	int  arr[]{ 1,2,3,4,5,6,7,8,9 };
+	cout << result << endl;
 
-	EvenFunctor ef;
+	cout << GreaterThanZero(1) << endl;*/
 
-	for (auto element : arr)
-		ef(element);
 
-	ef.showevenCount(); 
-	cout << endl << endl;
-	ef.showevenSum();
+	vector<Person> people
+	{
+		Person("Vasiliy", 234),
+		Person("Andrey", 50),
+		Person("Mariya", 300),
+		Person("Ekaterina", 182),
+		Person("Vitaliy", 142),
+		Person("Goga", 234),
+		Person("Dmitriy", 15),
+		Person("Olga", 500)
+	};
 
+	/*int result=0;*/
+
+	int result = count_if(people.begin(), people.end(), people.front());
+
+
+	/*for (auto element : people)
+	{
+		if (element(element))
+			++result;
+	}*/
+
+	cout << result << endl;
 	
 	return 0;
  }
