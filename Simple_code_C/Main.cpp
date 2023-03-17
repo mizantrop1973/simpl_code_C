@@ -8,73 +8,104 @@
 #include<thread>							/// дл€ потоков
 //#include<chrono>							/// дл€ времени (при включенной библиотеке потоков подключаетс€ автоматом)
 using namespace std;
-class Timer															/// сздаем класс измер€ющий врем€ работы программы
+
+class EvenFunctor
 {
 public:
-	Timer();
-	~Timer();
+	EvenFunctor();
+	~EvenFunctor();
+
+	void showevenSum()
+	{
+		cout << "Output sum of even numbers = " << evenSum << endl;
+	}
+
+	void showevenCount()
+	{
+		cout << "Output count of even numbers = " << evenCount << endl;
+	}
+
+	void operator()(int value)
+	{
+		if (value % 2 == 0)
+		{
+			++evenCount;
+			evenSum += value;
+		}
+
+	}
 
 
 private:
-	std::chrono::time_point<std::chrono::steady_clock> start, finish;
+	int evenSum = 0;
+	int evenCount = 0;
+
 };
 
-Timer::Timer()
+EvenFunctor::EvenFunctor()
 {
-	start = chrono::high_resolution_clock::now();
 }
 
-Timer::~Timer()
+EvenFunctor::~EvenFunctor()
 {
-	finish = chrono::high_resolution_clock::now();
-	chrono::duration<float> duration = finish - start;
-	cout << duration.count() << " sec" << endl;
-}
-
-															/// ¬–≈ћя ¬џѕќЋЌ≈Ќ»я  ќƒј
-
-int Sum(int a, int b)
-
-{
-	Timer n;
-	this_thread::sleep_for(chrono::milliseconds(3000));
-	cout << "Stream ID  is " << this_thread::get_id() << " ==============================\t SUM STARTED\t===============================" << endl;
-	this_thread::sleep_for(chrono::milliseconds(3000));
-	cout << "Stream ID  is " << this_thread::get_id() << " ==============================\t SUM STOPED\t===============================" << endl;
-	return a + b;
 }
 
 
+class MyFunctor
+{
+public:
+	MyFunctor();
+	~MyFunctor();
+	/*void operator()()
+	{
+		cout << "I am a functor " <<count<< endl;
+		++count;
+	}*/
 
+	int operator()(int a, int b)
+	{
+		cout << "I am a functor" << endl;
+		return a + b;
+	}
+
+private:
+
+	//int count = 0;
+
+};
+
+MyFunctor::MyFunctor()
+{
+}
+
+MyFunctor::~MyFunctor()
+{
+}
 
 int  main()
 
 {
-	Timer a;													/// нужно всего лишь создать вначале программы класс, куда вынесен расчет времени 
 	
-	setlocale(LC_ALL, "ru");
+	MyFunctor f;
 
-	int result;
+	/*f();
+	f();
+	f();
+	f();*/
 
-	thread t([&result]()
-		{
-			result = Sum(2, 5);
-		}
-	);
+	int result = f(2, 6);
 
+	int  arr[]{ 1,2,3,4,5,6,7,8,9 };
 
-	for (size_t i = 1; i <= 10; ++i)
-	{
-		cout << "Stream ID  is " << this_thread::get_id() << " ==============================\t MAIN STARTED\t===============================" <<i<< endl;
-		this_thread::sleep_for(chrono::milliseconds(500));
-	}
-	
+	EvenFunctor ef;
 
-	t.join();
+	for (auto element : arr)
+		ef(element);
 
-	cout << "Sum result is " << result << endl;
+	ef.showevenCount(); 
+	cout << endl << endl;
+	ef.showevenSum();
 
-	
 	
 	return 0;
  }
