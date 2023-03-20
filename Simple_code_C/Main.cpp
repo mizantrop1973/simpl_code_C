@@ -7,11 +7,12 @@
 #include<string>
 #include<thread>							/// для потоков
 #include<vector>
+#include<list>
 //#include<chrono>							/// для времени (при включенной библиотеке потоков подключается автоматом)
 using namespace std;
 
 
-															/// АЛГОРИТМЫ STL. std::remove, std::remove_if
+															/// АЛГОРИТМЫ STL. max_element
 
 class Person
 {
@@ -53,23 +54,24 @@ int  main()
 	setlocale(LC_ALL, "ru");
 
 
-	vector<int> v{ 1,4,9,4,11,13,87,4,99 };
-	auto result = remove(v.begin(), v.end(), 4);						/// не удаляет, а записывает в конец вектора (на самом деле не так??????? - 
-																		/// в конце в отладчике дублируются последние цифры, а не 4-ки
-	for (auto element : v)
-		cout << element << endl;
-																		/// result возвращает "закладочку" между "нужными" и "ненужными" элементами 
-	v.erase(result, v.end());											/// это фактическое удаление
-	for (auto element : v)
-		cout << element << endl;
-	
+	vector<int> v{ 1,4,9,4,-11,13,87,4,99 };
+	list<int>   l{ 2,9,4,67,43,-2,45,20,1 };
 
-	
+	auto result = max_element(v.begin(), v.end());
 
+	cout << *result << endl;
 
+	auto result1 = max_element(l.begin(), l.end());
 
-	
-	vector<Person> people									
+	cout << *result1 << endl;
+
+	const int SIZE = 10;
+
+	int arr[SIZE]{ 1,4,7,9,34,-77,45,42,11,29 };
+	auto result2 = max_element(arr, arr+SIZE);
+	cout << *result2 << endl;
+
+	/*vector<Person> people									
 	{														
 		Person("Vasiliy", 18,234),
 		Person("Andrey", 19,50),
@@ -81,52 +83,9 @@ int  main()
 		Person("Goga", 27,234),
 		Person("Dmitriy", 34, 15),
 		Person("Olga", 50,500)
-	};
-
-	cout << "Total quantity of Abiturients:\t" << people.size() << endl;
-
-	for (auto element : people)
-		cout << "\tName " << element.name<< "\t"<< "\tAge " << element.age << "\t\tScore " << element.score << endl;
-
-	cout << endl << endl << endl;
-
-	/*auto result1 =  remove_if(people.begin(), people.end(), [](const Person& p)   
-		{
-			return p.age > 30 || p.score<200;
-		});*/
-
-	
-
-	people.erase(remove_if(people.begin(), people.end(), [](const Person& p)   /// можно не создавать переменную result б а сразу передать remove_if  в  erase
-		{
-			return p.age > 30 || p.score < 200;
-		}), people.end());
-
-	sort(people.begin(), people.end(), [](const Person& p1, const Person& p2)
-		{
-			return p1.score > p2.score;
-		});
-
-	for (auto element : people)
-		cout << "\tName " << element.name << "\t" << "\tAge " << element.age << "\t\tScore " << element.score << endl;
+	};*/
 
 
-	string str = "Text with   several spaces ";      /// варинат с remove  удаление пробелов
-	cout << str << endl;
-	 
-	str.erase(remove(str.begin(), str.end(), ' '), str.end());
-
-	cout << str << endl;
-
-	string str1 = "Text amd many    many, spaces   ";
-	cout << str1 << endl;
-
-	str1.erase(remove_if(str1.begin(), str1.end(), [&str](const char& ch)
-		{
-			return ch == ' ';
-		}), str1.end());
-
-	cout << str1 << endl;
 
 
 
