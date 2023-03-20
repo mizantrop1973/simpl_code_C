@@ -57,18 +57,16 @@ int  main()
 	vector<int> v{ 1,4,9,4,-11,13,87,4,99 };
 	list<int>   l{ 2,9,4,67,43,-2,45,20,1 };
 
-	auto result = max_element(v.begin(), v.end());
-
+	auto result = min_element(v.begin(), v.end());
 	cout << *result << endl;
 
-	auto result1 = max_element(l.begin(), l.end());
 
+	auto result1 = min_element(l.begin(), l.end());
 	cout << *result1 << endl;
 
 	const int SIZE = 10;
-
 	int arr[SIZE]{ 1,4,7,9,34,-77,45,42,11,29 };
-	auto result2 = max_element(arr, arr+SIZE);
+	auto result2 = min_element(arr, arr+SIZE);
 	cout << *result2 << endl;
 
 	/*vector<Person> people									
@@ -85,9 +83,9 @@ int  main()
 		Person("Olga", 50,500)
 	};*/
 
+	auto result3 = minmax_element(v.begin(), v.end());        /// цхапхдмши лернд. djpdhfoftn gfhe pyfxtybq/
 
-
-
+	cout << "min_element is " << *result3.first << ", max_element is " << *result3.second << endl;
 
 	return 0;
  }
