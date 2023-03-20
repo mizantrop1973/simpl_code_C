@@ -11,7 +11,7 @@
 using namespace std;
 
 
-															/// АЛГОРИТМЫ STL. std::find, std::find_if, std::find_if_not
+															/// АЛГОРИТМЫ STL. std::copy, std::copy_if
 
 class Person
 {
@@ -52,45 +52,37 @@ int  main()
 
 	vector<int> v{ 11,13,87,99 };
 
-	auto result = find(v.begin(), v.end(), 2);
-
-	if (result == v.end())
-		cout << "Number is absent" << endl;
-	else
-		cout << "Mumber is found" << endl;
-
-	auto result1 = find_if(v.begin(), v.end(), [](int a)   ///find_if
-		{
-			return a % 2 == 0;								/// любое условие по факту
-		});
-
-	if (result1 == v.end())
-		cout << "-" << endl;
-	else
-		cout << "+" << endl;
-															/// find_if_not - то же самое тольео инверсия
 	
-
-	vector<Person> people									/// find не можем использовать . Либо перегрузить операторы сравнения (но если класс чужой???!!!)
-	{														/// ЛИБО только с предикатом  find_if
+	vector<Person> people									
+	{														
 		Person("Vasiliy", 234),
 		Person("Andrey", 50),
 		Person("Mariya", 300),
 		Person("Ekaterina", 182),
 		Person("Vitaliy", 142),
+		
+		Person ("Mariya", 301),
 		Person("Goga", 234),
 		Person("Dmitriy", 15),
 		Person("Olga", 500)
 	};
 
-	auto result2 = find_if(people.begin(), people.end(), [](const Person& p)
+	vector <Person> result;
+
+	//copy(people.begin(), people.end(), back_inserter(result));
+	
+	copy_if(people.begin(), people.end(), back_inserter(result), [](const Person &p)
 		{
-			return p.name == "Vitaliy" || p.score ==501;
+			return p.score > 200;
 		});
-	if (result2 == people.end())
-		cout << "-" << endl;
-	else
-		cout << "+" << endl;
+
+	cout << "The quantity of elements is\t" << result.size() << endl;
+
+	for (auto element : result)
+		cout << "Name\t" << element.name << "\tScore\t" << element.score << endl;
+
+	
+
 
 	return 0;
  }
