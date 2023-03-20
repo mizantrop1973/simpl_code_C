@@ -11,18 +11,7 @@
 using namespace std;
 
 
-															/// АЛГОРИТМЫ STL. SORT
-
-
-bool GreaterThanZero(int value)           /// унарный предикат
-{
-	return value > 0;
-}
-
-bool MyPred(int a, int b)					/// бинарный предикат . Так как эта функция нам может не поенадобиться, лучше вместо нее использовать анонимную ф-цию
-{
-	return a > b;
-}
+															/// АЛГОРИТМЫ STL. std::find, std::find_if, std::find_if_not
 
 class Person
 {
@@ -54,60 +43,36 @@ Person::~Person()
 
 
 
-
-
 int  main()
 
 {
 	
 	setlocale(LC_ALL, "ru");
 
-	vector<int> v{ 12,-34,32,76,-45,98,-64 };
 
-	for (auto element :v)
-		cout << element << endl;
+	vector<int> v{ 11,13,87,99 };
 
-	cout << endl << endl << endl;
+	auto result = find(v.begin(), v.end(), 2);
 
-	sort(v.begin(), v.end());                              /// простая сортировка по возрастанию от двух параметров - начала и конца коллекции
+	if (result == v.end())
+		cout << "Number is absent" << endl;
+	else
+		cout << "Mumber is found" << endl;
 
-	for (auto element : v)
-		cout << element << endl;
-
-	cout << endl << endl << endl;
-
-	//sort(v.begin(), v.end(), MyPred);								/// третий необязательный параметр - бинарный предикат (бинарный пинимает 2 параметра, унарный - один 
-	sort(v.begin(), v.end(), [](int a , int b)						/// вмето отдельной функции используем анонимную ф-цию
+	auto result1 = find_if(v.begin(), v.end(), [](int a)   ///find_if
 		{
-			return a > b; /// знак регулирует сортировкку
+			return a % 2 == 0;								/// любое условие по факту
 		});
 
-	for (auto element : v)
-		cout << element << endl;
-
-	cout << endl << endl << endl;
-
-	const int SIZE = 9;
-	int arr[SIZE]{1,2,3,5,9,8,2,4,7};
+	if (result1 == v.end())
+		cout << "-" << endl;
+	else
+		cout << "+" << endl;
+															/// find_if_not - то же самое тольео инверсия
 	
 
-	sort(arr, arr+SIZE, [](int a, int b) 
-		{
-			return a > b; /// знак регулирует сортировкку
-		});
-
-	for (auto element : arr)
-		cout << element << endl;
-
-
-	cout << endl << endl << endl;
-
-	/*cout << GreaterThanZero(1) << endl;*/
-
-
-
-	vector<Person> people
-	{
+	vector<Person> people									/// find не можем использовать . Либо перегрузить операторы сравнения (но если класс чужой???!!!)
+	{														/// ЛИБО только с предикатом  find_if
 		Person("Vasiliy", 234),
 		Person("Andrey", 50),
 		Person("Mariya", 300),
@@ -118,19 +83,15 @@ int  main()
 		Person("Olga", 500)
 	};
 
-	for (auto element : people)
-		cout << "Name: " << element.name << "\tScore: " << element.score << endl;
-
-	cout << endl << endl << endl;
-	
-	sort(people.begin(), people.end(), [](const Person &p1, const Person &p2)
+	auto result2 = find_if(people.begin(), people.end(), [](const Person& p)
 		{
-			return p1.score < p2.score; 
+			return p.name == "Vitaliy" || p.score ==501;
 		});
+	if (result2 == people.end())
+		cout << "-" << endl;
+	else
+		cout << "+" << endl;
 
-	for (auto element : people)
-		cout << "Name: " << element.name << "\tScore: " << element.score << endl;
-	
 	return 0;
  }
 
