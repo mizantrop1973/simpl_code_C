@@ -6,105 +6,77 @@
 #include<fstream>							/// поток в файлы
 #include<string>
 #include<thread>							/// для потоков
+#include<mutex>	
+
 //#include<chrono>							/// для времени (при включенной библиотеке потоков подключается автоматом)
 using namespace std;
-										/// ИНОГОПОТОЧНОЕ ПРОГРАММИРОВАНИЕ, МЕТОД КЛАССА В ПОТОКЕ
+/// МНОГОПОТОЧНОЕ ПРОГРАММИРОВАНИЕ, защита разделенных данных, синхронизация потоков, mutex
 
 
 
 
 
 
-
-class MyClass
+class Timer															/// сздаем класс измеряющий время работы программы
 {
 public:
-	MyClass();
-	~MyClass();
-	void DoWork()
-	{
-		this_thread::sleep_for(chrono::milliseconds(3000));
-		cout << "ID stream =  " << this_thread::get_id() << "============================\tDoWork STARTED\t========================================" << endl;
-		this_thread::sleep_for(chrono::milliseconds(5000));
-		cout << "ID stream =  " << this_thread::get_id() << "============================\tDoWork STOPED\t=========================================" << endl;
-	}
+	Timer();
+	~Timer();
 
-
-	void DoWork2(int a)
-	{
-		this_thread::sleep_for(chrono::milliseconds(3000));
-		cout << "ID stream =  " << this_thread::get_id() << "=============================\tDoWork2 STARTED\t========================================" << endl;
-		this_thread::sleep_for(chrono::milliseconds(5000));
-		cout << "DoWork2 value of the parameter\t" << a << endl;
-		cout << "ID stream =  " << this_thread::get_id() << "=============================\tDoWork2 STOPED\t=========================================" << endl;
-	}
-
-
-	int Sum(int a, int b)
-	{
-
-		this_thread::sleep_for(chrono::milliseconds(3000));
-		cout << "ID stream =  " << this_thread::get_id() << "==============================\tSum STARTED\t========================================" << endl;
-		this_thread::sleep_for(chrono::milliseconds(5000));
-		this_thread::sleep_for(chrono::milliseconds(3000));
-		cout << "ID stream =  " << this_thread::get_id() << "==============================\tSum STOPED\t=========================================" << endl;
-		return a + b;
-
-	}
 
 private:
-
+	chrono::time_point<chrono::steady_clock> start, finish;
+	chrono::duration<float> duration;
 };
 
-MyClass::MyClass()
+Timer::Timer()
 {
+	start = chrono::high_resolution_clock::now();
 }
 
-MyClass::~MyClass()
+Timer::~Timer()
 {
+	finish = chrono::high_resolution_clock::now();
+	chrono::duration<float> duration = finish - start;
+	cout << duration.count() << " sec" << endl;
+}
+
+mutex mtx;                           /// создаем мьютекс
+
+void Print(char ch)
+{
+	this_thread::sleep_for(chrono::milliseconds(2000));
+
+	//mtx.lock();						 /// защищаем участок кода от одновременного использования разными потоками
+	for (int i = 0; i < 5; ++i)
+	{
+		for (int i = 0; i < 10; ++i)
+		{
+			cout << ch;
+			this_thread::sleep_for(chrono::milliseconds(10));
+		}
+		cout << endl;
+	}
+	cout << endl;
+	//mtx.unlock();					/// снимаем защиту
+
+	this_thread::sleep_for(chrono::milliseconds(2000));
 }
 
 
 int  main()
-
 {
 	setlocale(LC_ALL, "ru");
 
+	Timer timer;
+	thread t1(Print, '*');           /// не сихронизированы
+	thread t2(Print, '#');
 
-	MyClass m;
+	/*Print('*');
+	Print('#');*/
 
-	int result;
-
-	thread t([&]()
-		{
-			result = m.Sum(2, 5);
-		});
-
-	thread t1(&MyClass::DoWork, m);						/// синтаксис подходит если не нужно возвращать значение
-
-
-	thread t2(&MyClass::DoWork2, m, 5);					/// если нужно передавать значение
-
-	for (size_t i = 1; i <= 10; ++i)
-	{
-		cout << "ID stream =  " << this_thread::get_id() << "==============================\tmain works\t" << i << "========================================" << endl;
-		this_thread::sleep_for(chrono::milliseconds(3000));
-	}
-
-
-	cout << "Result\t" << result << endl;
-
-	/*thread t1([&]()									/// вариант через лямбду
-		{
-			m.DoWork();
-		}); */
-
-
-
-
-	t2.join();
 	t1.join();
-	t.join();
+	t2.join();
 
 	return 0;
 }
