@@ -8,12 +8,12 @@
 #include<thread>							/// для потоков
 #include<vector>
 #include<list>
-#include<numeric>
+#include<numeric>							/// для accumulate
 //#include<chrono>							/// для времени (при включенной библиотеке потоков подключается автоматом)
 using namespace std;
 
 
-/// АЛГОРИТМЫ STL. accumulated
+														/// АЛГОРИТМЫ STL. equal and mismatch
 
 class Person
 {
@@ -55,32 +55,50 @@ int  main()
 	setlocale(LC_ALL, "ru");
 
 
-	vector<int> v{ 1,4,9,4,-11,13,87,4,99 };
+	
 
-	auto result = accumulate(begin(v), end(v), 0);
+	int arr1[]{ 1,4,7,9,34,-77,45,42,11,29,10, 12};
+	int arr2[]{ 1,4,7,9,34,-77,45,42,11,29 ,10,11};      
+
+	bool result = equal(begin(arr1), end(arr1), begin(arr2));    /// будет некорректно работать если вторая коллекция будет длиннееб
+																/// но в пределах длинны первой коллекции данные будуь совпадать
+
+	bool result1 = equal(begin(arr1), end(arr1), begin(arr2), end(arr2));  /// не знаю зачем лектор говорил вообще о первом варианте!!!!!!!!
 
 	cout << result << endl;
-
-	int arr[]{ 1,4,7,9,34,-77,45,42,11,29 };
-
-
-	auto result1 = accumulate(begin(v), end(v), 0, [](int a, int b)
-		{
-			if (b % 2 == 0)
-				return a + b;
-			else
-				return a;
-		});
 	cout << result1 << endl;
 
-	auto result2 = accumulate(begin(v), end(v), 1, [](int a, int b)
-		{
-			if (b % 2 == 0)
-				return a * b;
-			else
-				return a;
-		});
-	cout << result2 << endl;
+	vector<int> v1{ 1,4,7,9,34,-77,45,42,11,29,1 };    /// можно сравнивать вектор и массив легко
+
+	bool result2 = equal(begin(arr1), end(arr1), begin(v1), end(v1));  
+
+
+	cout << result2 << endl;                      /// при сравнении equal важен порядок. Если есть сомнения в порядке - надо сортировать
+
+	vector<int> v2{ 1,4,7,9,34,-77,45,42,11,1,29 }; /// отличается от первого порядком последних членов например
+
+	sort(begin(v1), end(v1));     /// после сортировки будут равны
+
+	sort(begin(v2), end(v2));
+
+	for (auto element : v2)
+		cout << element << endl;
+
+	bool result3 = equal(begin(v1), end(v1), begin(v2), end(v2));
+	cout << result3 << endl;
+
+	auto result4 = mismatch(begin(arr1), end(arr1), begin(arr2), end(arr2));   /// возвращает итераторы на несовпадающие элементы
+
+	
+	if (result4.first == end(arr1) && result4.second == end(arr2))
+		cout << "Collections are equal" << endl;
+	else
+		cout << "Collections are not equal" << endl;
+	
+	
+	
+	cout << *result4.first << "\t" << *result4.second << endl;
+
 
 
 		return 0;
