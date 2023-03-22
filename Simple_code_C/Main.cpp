@@ -8,16 +8,17 @@
 #include<thread>							/// для потоков
 #include<vector>
 #include<list>
+#include<numeric>
 //#include<chrono>							/// для времени (при включенной библиотеке потоков подключается автоматом)
 using namespace std;
 
 
-															/// АЛГОРИТМЫ STL. max_element
+/// АЛГОРИТМЫ STL. accumulated
 
 class Person
 {
 public:
-	Person(string name, int age,double score);
+	Person(string name, int age, double score);
 	~Person();
 
 	bool operator()(const Person& p)
@@ -50,44 +51,41 @@ Person::~Person()
 int  main()
 
 {
-	
+
 	setlocale(LC_ALL, "ru");
 
 
 	vector<int> v{ 1,4,9,4,-11,13,87,4,99 };
-	list<int>   l{ 2,9,4,67,43,-2,45,20,1 };
 
-	auto result = min_element(v.begin(), v.end());
-	cout << *result << endl;
+	auto result = accumulate(begin(v), end(v), 0);
+
+	cout << result << endl;
+
+	int arr[]{ 1,4,7,9,34,-77,45,42,11,29 };
 
 
-	auto result1 = min_element(l.begin(), l.end());
-	cout << *result1 << endl;
+	auto result1 = accumulate(begin(v), end(v), 0, [](int a, int b)
+		{
+			if (b % 2 == 0)
+				return a + b;
+			else
+				return a;
+		});
+	cout << result1 << endl;
 
-	const int SIZE = 10;
-	int arr[SIZE]{ 1,4,7,9,34,-77,45,42,11,29 };
-	auto result2 = min_element(arr, arr+SIZE);
-	cout << *result2 << endl;
+	auto result2 = accumulate(begin(v), end(v), 1, [](int a, int b)
+		{
+			if (b % 2 == 0)
+				return a * b;
+			else
+				return a;
+		});
+	cout << result2 << endl;
 
-	/*vector<Person> people									
-	{														
-		Person("Vasiliy", 18,234),
-		Person("Andrey", 19,50),
-		Person("Mariya", 25,300),
-		Person("Ekaterina",31, 182),
-		Person("Vitaliy", 42,142),
-		
-		Person ("Mariya", 22, 301),
-		Person("Goga", 27,234),
-		Person("Dmitriy", 34, 15),
-		Person("Olga", 50,500)
-	};*/
 
-	auto result3 = minmax_element(v.begin(), v.end());        /// ГИБРИДНЫЙ МЕТОД. djpdhfoftn gfhe pyfxtybq/
+		return 0;
+}
 
-	cout << "min_element is " << *result3.first << ", max_element is " << *result3.second << endl;
 
-	return 0;
- }
 
 
