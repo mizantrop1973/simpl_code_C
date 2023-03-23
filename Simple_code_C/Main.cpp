@@ -10,14 +10,14 @@
 
 //#include<chrono>							/// для времени (при включенной библиотеке потоков подключается автоматом)
 using namespace std;
-/// МНОГОПОТОЧНОЕ ПРОГРАММИРОВАНИЕ, защита разделенных данных, синхронизация потоков, mutex
+						/// МНОГОПОТОЧНОЕ ПРОГРАММИРОВАНИЕ,  синхронизация потоков, lock_guard mutex
 
 
 
 
 
 
-class Timer															/// сздаем класс измеряющий время работы программы
+class Timer									/// сздаем класс измеряющий время работы программы
 {
 public:
 	Timer();
@@ -41,27 +41,34 @@ Timer::~Timer()
 	cout << duration.count() << " sec" << endl;
 }
 
-mutex mtx;                           /// создаем мьютекс
+mutex mtx;                           /// создаем мьютекс (класс)
 
 void Print(char ch)
 {
 	this_thread::sleep_for(chrono::milliseconds(2000));
 
 	//mtx.lock();						 /// защищаем участок кода от одновременного использования разными потоками
-	for (int i = 0; i < 5; ++i)
-	{
-		for (int i = 0; i < 10; ++i)
+	{									/// в случае с объектом lock guard  для определения зоны синхронизации можно использовать фигурные скобки
+		lock_guard<mutex> duard(mtx);       /// автоматом следит за lock и unlock (смысл - создание объекта и захват мьютекса в конструкторе, 
+		/// а после завершения работы функции - деструктор этот объект уничтожает
+
+		for (int i = 0; i < 5; ++i)
 		{
-			cout << ch;
-			this_thread::sleep_for(chrono::milliseconds(10));
+			for (int i = 0; i < 10; ++i)
+			{
+				cout << ch;
+				this_thread::sleep_for(chrono::milliseconds(10));
+			}
+			cout << endl;
 		}
 		cout << endl;
-	}
-	cout << endl;
-	//mtx.unlock();					/// снимаем защиту
+		//mtx.unlock();					/// снимаем защиту
+	}												/// если используем фигурные скобки, то объект lock guard  удаляется здесь
 
 	this_thread::sleep_for(chrono::milliseconds(2000));
-}
+
+
+}										/// вот тут уничтожится объект lock guard
 
 
 int  main()
