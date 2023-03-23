@@ -13,47 +13,41 @@
 using namespace std;
 
 
-/// ÀËÃÎÐÈÒÌÛ STL. equal ñ ïðåäèêàòîì
+													/// ÀËÃÎÐÈÒÌÛ STL. for///each  - ïåðåáðàòü ýëåìåíòû êîëëåêöèè
 
-class Point
+
+
+void Foo(int a)
 {
-public:
-	Point(int x, int y);
-	~Point();
-
-
-	int x, y;
-private:
-};
-
-Point::Point(int x, int y)
-{
-	this->x = x;
-	this->y = y;
+	cout << a << endl;
 }
 
-Point::~Point()
-{
-}
 
 int  main()
 
 {
-
 	setlocale(LC_ALL, "ru");
 
 
-	vector<Point> arr1{ Point(20,3),Point(4,8),Point(0,10) };
+	int arr[]{ 1,4,8,2,5,9,0 };
 
-	vector<Point> arr2{ Point(1,3),Point(4,8),Point(0,10) };
+	for_each(begin(arr), end(arr), Foo);
+	
+	cout << endl << endl << endl;
 
-	bool result = equal(begin(arr1), end(arr1), begin(arr2), end(arr2), [](const Point & p1, const Point & p2) 
+	for (auto element : arr)
+	{
+		cout << element << endl;
+	}
+
+	cout << endl << endl << endl;
+
+	for_each(begin(arr), end(arr), [](int a) 
 		{
-			return  p1.x == p2.x && p1.y == p2.y;
+			cout << a << endl;
 		});
 
 
-	cout << result << endl;
 
 	return 0;
 }
